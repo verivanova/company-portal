@@ -3,27 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Company Portal</title>
+  <title>Company Portal - Внутренний портал компании</title>
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <header class="header">
     <nav class="nav-bar">
       <h2 class="logo"> Company Portal </h2>
         <ul class="header-links">
-          <li><a href="index.html">Главная</a></li>
-          <li><a href="#">Лента новостей</a></li>
-          <li><a href="#">Задачи</a></li>
+          <li><a href="#possibilities">Возможности</a></li>
+          <li><a href="#about">О проекте</a></li>
+          <li><a href="news.html">Лента новостей</a></li>
+          <li><a href="#login" class="btn btn-login">Войти в систему</a></li>
         </ul>
     </nav>
   </header>
 
   <main class="main">
-  <div class="text-section">
-    <h1 class="text-title">Эффективно управляйте задачами и новостями компании</h1>
-  </div>
+    <section class="text">
+      <div class="text-section">
+        <h1 class="text-title">Эффективно управляйте задачами и новостями компании</h1>
+        <h1 class="text-subtitle">Простой и удобный инструмент для командной работы и управления проектами</h1>
+      </div>      
+      <div class="mockup">
+        <div class="mockup-dashboard">
+          <div class="mockup-header"></div>
+          <div class="mockup-content">
+            <div class="mockup-card"></div>
+            <div class="mockup-card"></div>
+            <div class="mockup-card"></div>
+          </div>
+        </div>
+    </div>
+    </section>
+
+    <section id="possibilities" class="possibilities">
+      <div class="container">
+        <h2 class="section-title">Возможности портала</h2>
+        <div class="possibility-grid">
+          <div class="possibility-card">
+            <div class="possibility-icon"><i class="fa-solid fa-list-check"></i></div>
+            <h3>Управление задачами</h3>
+            <p>Создавайте, назначайте и отслеживайте выполнение задач. Контролируйте дедлайны и статусы выполнения.</p>
+          </div>
+          <div class="possibility-card">
+            <div class="possibility-icon"><i class="fa-regular fa-newspaper"></i></div>
+            <h3>Корпоративные новости</h3>
+            <p>Публикуйте важные объявления и новости компании. Все сотрудники всегда в курсе событий.</p>
+          </div>
+          <div class="possibility-card">
+            <div class="possibility-icon"><i class="fa-solid fa-user-group"></i></div>
+            <h3>Командная работа</h3>
+            <p>Разные роли пользователей: администраторы, сотрудники. Гибкая система прав доступа.</p>
+          </div>
+          <div class="possibility-card">
+            <div class="possibility-icon"><i class="fa-solid fa-lock"></i></div>
+            <h3>Безопасность</h3>
+            <p>Надежная система аутентификации и разграничения прав доступа к функционалу.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   
-  <div class="auth-container">
+  <div id="login" class="auth-container">
     <div class="auth-card">
       <h2>Вход в систему</h2>
         <form id="loginForm">
