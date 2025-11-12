@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Portal - Внутренний портал компании</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="header">
+    <nav class="nav-bar">
+      <h2 class="logo"> Company Portal </h2>
+        <ul class="header-links">
+          <li><a id="news-link" class="active">Лента новостей</a></li>
+          <li><a id="tasks-link">Задачи</a></li>
+          <li><a href="#login" class="btn btn-login">Войти в систему</a></li>
+        </ul>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section id="news-section" class="section-content">
+      <h2 class="section-title">Лента новостей</h2>
+      
+      <div class="news-item">
+        <h3>Обновление системы отчетности</h3>
+        <p>С этого месяца вводится новая система отчетности для всех отделов. Пожалуйста, ознакомьтесь с изменениями в разделе документации.</p>
+        <div class="news-date">15 марта 2025</div>
+      </div>
+      
+      <div class="news-item">
+        <h3>Корпоративное мероприятие</h3>
+        <p>Напоминаем о предстоящем корпоративном мероприятии в эту пятницу. Регистрация обязательна для всех сотрудников.</p>
+        <div class="news-date">10 марта 2025</div>
+      </div>
+      
+      <div class="news-item">
+        <h3>Обновление политики безопасности</h3>
+        <p>IT-отдел выпустил обновленные рекомендации по безопасности. Все сотрудники должны пройти обязательный инструктаж до конца месяца.</p>
+        <div class="news-date">5 марта 2025</div>
+      </div>
+    </section>
+
+    <section id="tasks-section" class="section-content hidden">
+      <h2 class="section-title">Мои задачи</h2>
+      
+      <div class="task-item">
+        <h3>Подготовить квартальный отчет</h3>
+        <p>Собрать данные за последний квартал и подготовить итоговый отчет для руководства.</p>
+        <div class="task-date">Срок: 25 марта 2025</div>
+        <div class="task-status status-in-progress">В работе</div>
+      </div>
+      
+      <div class="task-item">
+        <h3>Провести обучение новых сотрудников</h3>
+        <p>Организовать и провести вводный инструктаж для новых членов команды.</p>
+        <div class="task-date">Срок: 20 марта 2025</div>
+        <div class="task-status status-new">Новая</div>
+      </div>
+      
+      <div class="task-item">
+        <h3>Завершить проект "Оптимизация"</h3>
+        <p>Завершить все работы по проекту и подготовить финальную презентацию.</p>
+        <div class="task-date">Срок: 30 марта 2025</div>
+        <div class="task-status status-completed">Завершена</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p>© 2025 <span style="font-weight: 500;">Company Portal.</span>  Учебный проект.</p>
+      <p ><span style="font-weight: 500;">Версия</span> 1.0.0</p>
+    </div>
+    <div class="footer-right">
+      <p style="font-weight: 500;">Поддержка</p>
+      <a href="mailto:company-portal_support@gmail.com">company-portal_support@gmail.com</a>
+    </div>
+  </footer>
+
+  <script src="../js/app.js" ></script>
+</body>
+</html>
