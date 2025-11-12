@@ -336,6 +336,25 @@ body {
     border-color: #9ca3af;
 }
 
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+}
+.form-group textarea:focus {
+    outline: none;
+    border-color: #1d53c7;
+    box-shadow: 0 0 0 3px rgba(29, 83, 199, 0.1);
+}
+
+.form-group textarea:hover {
+    border-color: #9ca3af;
+}
+
 /*Кнопки*/
 .btn {
     padding: 14px 24px;
@@ -579,6 +598,52 @@ body {
         color: #94a3b8;
         font-size: 14px;
         font-weight: 500;
+    }
+
+    .add-news-btn {
+            background: #1d53c7;
+            color: white;
+            padding: 13px 25px;
+            border-radius: 8px;
+            border: none;
+            font-size: 19px;
+            font-weight: 550;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+            margin-left: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+    .add-news-btn:hover {
+        background: #1641b8;
+        transform: translateY(-1px);
+        box-shadow: 0 5px 5px rgba(29, 83, 199, 0.2);
+    }
+
+    .publish-btn {
+            background: #1d53c7;
+            color: white;
+            padding: 13px 25px;
+            border-radius: 8px;
+            border: none;
+            font-size: 19px;
+            font-weight: 550;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+            margin-left: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+    .publish-btn:hover {
+        background: #1641b8;
+        transform: translateY(-1px);
+        box-shadow: 0 5px 5px rgba(29, 83, 199, 0.2);
     }
 
     .task-status {

@@ -21,24 +21,29 @@
 
   <main class="main">
     <section id="news-section" class="section-content">
-      <h2 class="section-title">Лента новостей</h2>
-      
-      <div class="news-item">
-        <h3>Обновление системы отчетности</h3>
-        <p>С этого месяца вводится новая система отчетности для всех отделов. Пожалуйста, ознакомьтесь с изменениями в разделе документации.</p>
-        <div class="news-date">15 марта 2025</div>
+      <div class="section-header">
+        <h2 class="section-title">Лента новостей</h2>
+      </div>
+      <button class="add-news-btn" id="add-news-btn">
+          <i class="fas fa-plus"></i>
+          Добавить новость
+        </button>
+      <div id="publish-form" class="publish-form hidden">
+        <h3 style="margin-bottom: 24px; color: #1e293b;">Публикация новой новости</h3>
+        <form id="news-form">
+          <div class="form-group">
+            <label for="news-title">Заголовок новости</label>
+            <input type="text" id="news-title" required placeholder="Введите заголовок новости">
+          </div>
+          <div class="form-group">
+            <label for="news-content">Содержание новости</label>
+            <textarea id="news-content" required placeholder="Введите текст новости"></textarea>
+          </div>
+          <button type="submit" class="btn publish-btn">Опубликовать новость</button>
+        </form>
       </div>
       
-      <div class="news-item">
-        <h3>Корпоративное мероприятие</h3>
-        <p>Напоминаем о предстоящем корпоративном мероприятии в эту пятницу. Регистрация обязательна для всех сотрудников.</p>
-        <div class="news-date">10 марта 2025</div>
-      </div>
-      
-      <div class="news-item">
-        <h3>Обновление политики безопасности</h3>
-        <p>IT-отдел выпустил обновленные рекомендации по безопасности. Все сотрудники должны пройти обязательный инструктаж до конца месяца.</p>
-        <div class="news-date">5 марта 2025</div>
+      <div id="news-container">
       </div>
     </section>
 

@@ -25,3 +25,14 @@ document.addEventListener('DOMContentLoaded', function() {
       
       switchSection(newsSection, newsLink);
     });
+
+const addNewsBtn = document.getElementById('add-news-btn');
+const publishForm = document.getElementById('publish-form');
+
+addNewsBtn.addEventListener('click', function() {
+    publishForm.classList.toggle('hidden');
+    
+    if (!publishForm.classList.contains('hidden')) {
+        document.getElementById('news-title').focus();
+    }
+});
