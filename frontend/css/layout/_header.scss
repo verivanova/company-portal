@@ -1,0 +1,78 @@
+@use '../abstracts' as a;
+.header{
+  background-color: var(--color-white);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+  &__logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--color-main);
+  }
+
+  &__inner{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 35px;
+    padding: 16px 5%;
+    max-width: 1200px;
+  }
+
+  &__menu{
+    margin-left: auto;
+    font-size: 18px;
+
+    &-list{
+      display: flex;
+      align-items: center;
+      column-gap: 35px;
+    }
+
+    &-link{
+      display: inline-flex;
+      align-items: center;
+      height: 40px;
+      font-weight: 500;
+      @include a.reset-link;
+
+      &{
+      transition: color 0.3s;
+      position: relative;
+      }
+      
+      &::after{
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--color-main);
+        transition: width 0.3s ease;
+      }
+
+      &:hover::after{
+        width: 100%;
+      }
+
+      &:hover,
+      &.active{
+        color: var(--color-main);
+      }
+    }
+  }
+  &__btn-login{
+    padding: 10px 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    height: auto !important;
+    animation: none !important;
+
+    &::after{
+      display: none;
+    }
+  }
+}

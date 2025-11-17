@@ -1,0 +1,31 @@
+@mixin reset-link{
+  color: inherit;
+
+  &,
+  &:hover{
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+@mixin section-spacing {
+  margin-bottom: 90px;
+}
+
+
+@mixin btn-hover{
+  &:hover{
+    background: var(--color-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 5px rgba(29, 83, 199, 0.2);
+    transition: var(--transition-duration);
+  }
+}
+
+@mixin section-title{
+    text-align: center;
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 48px;
+    color: var(--color-text);
+}

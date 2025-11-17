@@ -3,126 +3,131 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Company Portal - Внутренний портал компании</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <title>Company Portal | Внутренний портал компании</title>
+  <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <header class="header">
-    <nav class="nav-bar">
-      <h2 class="logo"> Company Portal </h2>
-        <ul class="header-links">
-          <li><a href="#possibilities">Возможности</a></li>
-          <li><a href="#about">О проекте</a></li>
-          <li><a href="#login" class="btn btn-login">Войти в систему</a></li>
-        </ul>
-    </nav>
+    <div class="header__inner container">
+      <h2 class="header__logo"> Company Portal </h2>
+        <nav class="header__menu">
+          <ul class="header__menu-list">
+          <li class="header__menu-item">
+            <a class="header__menu-link" href="#features">Возможности</a>
+          </li>
+          <li class="header__menu-item">
+            <a class="header__menu-link" href="#about">О проекте</a>
+          </li>
+          <li class="header__menu-item">
+            <a href="#login" class="btn header__btn-login">Войти в систему</a>
+          </li>
+          </ul>
+        </nav>
+    </div>
   </header>
 
   <main class="main">
-    <section class="text">
-      <div class="text-section">
-        <h1 class="text-title">Эффективно управляйте задачами и новостями компании</h1>
-        <h1 class="text-subtitle">Простой и удобный инструмент для командной работы и управления проектами</h1>
-        <div class="text-section-btn">
-          <button class="btn start-work-btn"><a href="#login">Начать работу</a></button>
-          <button class="btn view-more-btn"><a href="#possibilities">Узнать больше</a></button>
+    <section class="hero">
+      <div class="hero__inner container">
+        <h1 class="hero__inner-title">Эффективно управляйте задачами и новостями компании</h1>
+        <h2 class="hero__inner-subtitle">Простой и удобный инструмент для командной работы и управления проектами</h1>
+        <div class="hero__btns">
+          <a href="#login" class="btn hero__btns-start">Начать работу</a></button>
+          <a href="#features" class="btn hero__btns-view">Узнать больше</a></button>
         </div>
       </div>      
-      <div class="mockup">
-        <div class="mockup-dashboard">
-          <div class="mockup-header"></div>
-          <div class="mockup-content">
-            <div class="mockup-card"></div>
-            <div class="mockup-card"></div>
-            <div class="mockup-card"></div>
+      <div class="hero__mockup">
+        <div class="hero__dashboard">
+          <div class="hero__header"></div>
+          <div class="hero__content">
+            <div class="hero__content-card"></div>
+            <div class="hero__content-card"></div>
+            <div class="hero__content-card"></div>
           </div>
         </div>
     </div>
     </section>
 
-    <section id="possibilities" class="possibilities">
-      <div class="container">
-        <h2 class="section-title">Возможности портала</h2>
-        <div class="possibility-grid">
-          <div class="possibility-card">
-            <div class="possibility-icon"><i class="fa-solid fa-list-check"></i></div>
-            <h3>Управление задачами</h3>
-            <p>Создавайте, назначайте и отслеживайте выполнение задач. Контролируйте дедлайны и статусы выполнения.</p>
+    <section id="features" class="features">
+      <div class="features__inner container">
+        <h2 class="features__title">Возможности портала</h2>
+        <div class="features__cards">
+          <div class="features__card">
+            <div class="features__card-icon"><i class="fa-solid fa-list-check"></i></div>
+            <h3 class="features__card-title">Управление задачами</h3>
+            <p class="features__card-text">Создавайте, назначайте и отслеживайте выполнение задач. Контролируйте дедлайны и статусы выполнения.</p>
           </div>
-          <div class="possibility-card">
-            <div class="possibility-icon"><i class="fa-regular fa-newspaper"></i></div>
-            <h3>Корпоративные новости</h3>
-            <p>Публикуйте важные объявления и новости компании. Все сотрудники всегда в курсе событий.</p>
+          <div class="features__card">
+            <div class="features__card-icon"><i class="fa-regular fa-newspaper"></i></div>
+            <h3 class="features__card-title">Корпоративные новости</h3>
+            <p class="features__card-text">Публикуйте важные объявления и новости компании. Все сотрудники всегда в курсе событий.</p>
           </div>
-          <div class="possibility-card">
-            <div class="possibility-icon"><i class="fa-solid fa-user-group"></i></div>
-            <h3>Командная работа</h3>
-            <p>Разные роли пользователей: администраторы, сотрудники. Гибкая система прав доступа.</p>
+          <div class="features__card">
+            <div class="features__card-icon"><i class="fa-solid fa-user-group"></i></div>
+            <h3 class="features__card-title">Командная работа</h3>
+            <p class="features__card-text">Разные роли пользователей: администраторы, сотрудники. Гибкая система прав доступа.</p>
           </div>
-          <div class="possibility-card">
-            <div class="possibility-icon"><i class="fa-solid fa-lock"></i></div>
-            <h3>Безопасность</h3>
-            <p>Надежная система аутентификации и разграничения прав доступа к функционалу.</p>
+          <div class="features__card">
+            <div class="features__card-icon"><i class="fa-solid fa-lock"></i></div>
+            <h3 class="features__card-title">Безопасность</h3>
+            <p class="features__card-text">Надежная система аутентификации и разграничения прав доступа к функционалу.</p>
           </div>
         </div>
       </div>
     </section>
     
-    <section id="login" class="auth-container">
-      <div class="auth-card">
-        <h2>Вход в систему</h2>
-        <form id="loginForm">
-          <div class="form-group">
+    <section id="login" class="login container">
+      <div class="login__inner">
+        <h2 class="login__title">Вход в систему</h2>
+        <form id="loginForm" class="form">
+          <div class="form__inner">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
           </div>
-          <div class="form-group">
+          <div class="form__inner">
             <label for="password">Пароль:</label>
             <input type="password" id="password" name="password" required>
           </div>
-          <button type="submit" class="btn btn-submit" style="width: 100%;">Войти</button>
+          <button type="submit" class="btn form__submit">Войти</button>
         </form>
-        <div id="error" class="text-error hidden" style="margin-top: 16px;"></div>
-        <div class="test-users">
-          <h4>Тестовые пользователи:</h4>
+        <div id="error" class="form__error hidden"></div>
+        <div class="form__test">
+          <h4 class="form__test-title">Тестовые пользователи:</h4>
           <p><strong>Админ:</strong> admin@example.com / admin123</p>
           <p><strong>Сотрудник:</strong> user@example.com / user123</p>
         </div>
       </div>
     </section>
 
-    <section id="about" class="about">
-      <div>
-        <h2>О проекте</h2>
-        <div class="about-objects">
-          <div class="text-about">
-            <p>Company Portal - это учебный проект, который включает в себя систему управления задачами, корпоративную ленту новостей и систему ролей пользователей.</p>
-          </div>
-          <div class="technologies">
-            <p>Технологии:</p>
-            <div class="technology">
-              <span class="lang">HTML5</span>
-              <span class="lang">CSS3</span>
-              <span class="lang">JavaScript</span>
-              <span class="lang">Node.js</span>
-              <span class="lang">MySQL</span>
+    <section id="about" class="about container">
+      <div class="about__inner">
+        <h2 class="about__title">О проекте</h2>
+        <div class="about__objects">
+            <p class="about__text">Company Portal - это учебный проект, который включает в себя систему управления задачами, корпоративную ленту новостей и систему ролей пользователей.</p>
+            <div>
+              <p class="about__technologies">Технологии:</p>
+            <div class="about__technology">
+              <span class="about__technology-lang">HTML5</span>
+              <span class="about__technology-lang">SCSS</span>
+              <span class="about__technology-lang">JavaScript</span>
+              <span class="about__technology-lang">Node.js</span>
+              <span class="about__technology-lang">MySQL</span>
             </div>
-          </div>
+            </div>
         </div>
-        
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="footer-left">
-      <p>© 2025 <span style="font-weight: 500;">Company Portal.</span>  Учебный проект.</p>
-      <p ><span style="font-weight: 500;">Версия</span> 1.0.0</p>
+  <footer class="footer container">
+    <div class="footer__left">
+      <p>© 2025 <span>Company Portal.</span>  Учебный проект.</p>
+      <p ><span>Версия</span> 1.0.0</p>
     </div>
-    <div class="footer-right">
-      <p style="font-weight: 500;">Поддержка</p>
-      <a href="mailto:company-portal_support@gmail.com">company-portal_support@example.com</a>
+    <div class="footer__right">
+      <p >Поддержка</p>
+      <a class="footer__email" href="mailto:company-portal_support@gmail.com">company-portal_support@example.com</a>
     </div>
   </footer>
   
