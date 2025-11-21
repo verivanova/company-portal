@@ -260,7 +260,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Функционал для публикации новостей
 const newsForm = document.getElementById('news-form');
 
 newsForm.addEventListener('submit', function(e) {
@@ -272,12 +271,8 @@ newsForm.addEventListener('submit', function(e) {
   if (title.trim() && content.trim()) {
     createNewsItem(title, content);
     
-    // Очистка формы и скрытие
     newsForm.reset();
     publishForm.classList.add('hidden');
-    
-    // Показ сообщения об успехе
-    showNotification('Новость успешно опубликована!', 'success');
   }
 });
 
@@ -285,7 +280,7 @@ function createNewsItem(title, content) {
   const newsId = Date.now().toString();
   const currentDate = new Date().toLocaleDateString('ru-RU', {
     year: 'numeric',
-    month: 'long',
+    month: 'numeric',
     day: 'numeric'
   });
   
@@ -294,9 +289,6 @@ function createNewsItem(title, content) {
       <div class="news-header">
         <h3>${title}</h3>
         <div class="news-actions">
-          <button class="news-action-btn edit-news" title="Редактировать новость">
-            <i class="fas fa-edit"></i>
-          </button>
           <button class="news-action-btn delete-news" title="Удалить новость">
             <i class="fas fa-trash"></i>
           </button>
@@ -309,118 +301,21 @@ function createNewsItem(title, content) {
     </div>
   `;
   
-  // Добавляем новую новость в начало контейнера
   document.getElementById('news-container').insertAdjacentHTML('afterbegin', newsHTML);
 }
 
-// Функция для показа уведомлений
-function showNotification(message, type) {
-  const notification = document.createElement('div');
-  notification.className = `notification ${type}`;
-  notification.textContent = message;
-  
-  // Стили для уведомления
-  notification.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 15px 20px;
-    border-radius: 8px;
-    color: white;
-    font-weight: 500;
-    z-index: 1000;
-    animation: slideInRight 0.3s ease-out;
-    max-width: 300px;
-  `;
-  
-  if (type === 'success') {
-    notification.style.background = '#10b981';
-  } else if (type === 'error') {
-    notification.style.background = '#ef4444';
-  }
-  
-  document.body.appendChild(notification);
-  
-  // Автоматическое удаление уведомления через 3 секунды
-  setTimeout(() => {
-    notification.style.animation = 'slideOutRight 0.3s ease-in';
-    setTimeout(() => {
-      if (notification.parentNode) {
-        notification.parentNode.removeChild(notification);
-      }
-    }, 300);
-  }, 3000);
-}
-
-// Обработчики для действий с новостями (редактирование, удаление)
 document.addEventListener('click', function(e) {
-  // Редактирование новости
-  if (e.target.closest('.edit-news')) {
-    const newsItem = e.target.closest('.news-item');
-    editNews(newsItem);
-  }
-  
-  // Удаление новости
   if (e.target.closest('.delete-news')) {
     const newsItem = e.target.closest('.news-item');
     deleteNews(newsItem);
   }
 });
 
-function editNews(newsElement) {
-  const title = newsElement.querySelector('h3').textContent;
-  const content = newsElement.querySelector('p').textContent;
-  
-  // Заполняем форму редактирования
-  document.getElementById('news-title').value = title;
-  document.getElementById('news-content').value = content;
-  
-  // Показываем форму
-  publishForm.classList.remove('hidden');
-  
-  // Меняем текст кнопки
-  const submitBtn = document.querySelector('.publish-btn');
-  submitBtn.textContent = 'Сохранить изменения';
-  
-  // Удаляем старый обработчик и добавляем новый для редактирования
-  newsForm.onsubmit = function(e) {
-    e.preventDefault();
-    
-    const newTitle = document.getElementById('news-title').value;
-    const newContent = document.getElementById('news-content').value;
-    
-    if (newTitle.trim() && newContent.trim()) {
-      // Обновляем новость
-      newsElement.querySelector('h3').textContent = newTitle;
-      newsElement.querySelector('p').textContent = newContent;
-      
-      // Скрываем форму и сбрасываем
-      publishForm.classList.add('hidden');
-      newsForm.reset();
-      
-      // Возвращаем оригинальный текст кнопки
-      submitBtn.textContent = 'Опубликовать новость';
-      
-      // Показываем уведомление
-      showNotification('Новость успешно обновлена!', 'success');
-      
-      // Восстанавливаем оригинальный обработчик
-      newsForm.onsubmit = originalSubmitHandler;
-    } else {
-      showNotification('Пожалуйста, заполните все поля', 'error');
-    }
-  };
-}
-
 function deleteNews(newsElement) {
   if (confirm('Вы уверены, что хотите удалить эту новость?')) {
     newsElement.style.animation = 'fadeOut 0.3s ease-out';
     setTimeout(() => {
       newsElement.remove();
-      showNotification('Новость удалена', 'success');
     }, 300);
   }
 }
-
-// Сохраняем оригинальный обработчик отправки формы
-const originalSubmitHandler = newsForm.onsubmit;
