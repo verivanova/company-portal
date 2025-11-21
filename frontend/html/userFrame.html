@@ -27,7 +27,7 @@
       <button class="add-news-btn" id="add-news-btn">
           <i class="fas fa-plus"></i>
           Добавить новость
-        </button>
+      </button>
       <div id="publish-form" class="publish-form hidden">
         <h3 style="margin-bottom: 24px; color: #1e293b;">Публикация новой новости</h3>
         <form id="news-form">
@@ -44,31 +44,187 @@
       </div>
       
       <div id="news-container">
+        <div class="news-item">
+          <div class="news-header">
+            <h3>Корпоративное мероприятие</h3>
+            <div class="news-actions">
+              <button class="news-action-btn delete-news" title="Удалить задачу">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          <p>Напоминаем о предстоящем корпоративном мероприятии в эту пятницу. Регистрация обязательна для всех сотрудников.</p>
+          <div class="news-date">10 марта 2025</div>
+        </div>
       </div>
+      
     </section>
 
     <section id="tasks-section" class="section-content hidden">
-      <h2 class="section-title">Мои задачи</h2>
-      
-      <div class="task-item">
-        <h3>Подготовить квартальный отчет</h3>
-        <p>Собрать данные за последний квартал и подготовить итоговый отчет для руководства.</p>
-        <div class="task-date">Срок: 25 марта 2025</div>
-        <div class="task-status status-in-progress">В работе</div>
+      <div class="section-header">
+        <h2 class="section-title">Задачи</h2>
       </div>
-      
-      <div class="task-item">
-        <h3>Провести обучение новых сотрудников</h3>
-        <p>Организовать и провести вводный инструктаж для новых членов команды.</p>
-        <div class="task-date">Срок: 20 марта 2025</div>
-        <div class="task-status status-new">Новая</div>
+        <button class="add-task-btn" id="add-task-btn">
+          <i class="fas fa-plus"></i>
+          Создать задачу
+        </button>
+
+      <div id="task-form-container" class="task-form-container hidden">
+        <div class="task-form-card">
+          <h3 id="task-form-title" style="margin-bottom: 24px; color: #1e293b;">Создание новой задачи</h3>
+          <form id="task-form">
+            <div class="form-group">
+              <label for="task-title">Название задачи</label>
+              <input type="text" id="task-title" required placeholder="Введите название задачи">
+            </div>
+            <div class="form-group">
+              <label for="task-description">Описание задачи</label>
+              <textarea id="task-description" required placeholder="Введите описание задачи"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="task-manager">Постановщик</label>
+                <select id="task-manager" required>
+                  <option value="">Выберите постановщика</option>
+                  <option value="Иванов Иван Иванович">Иванов Иван Иванович</option>
+                  <option value="Петров Петр Петрович">Петров Петр Петрович</option>
+                  <option value="Сидорова Мария Сергеевна">Сидорова Мария Сергеевна</option>
+                  <option value="Козлов Алексей Дмитриевич">Козлов Алексей Дмитриевич</option>
+                </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="task-assignee">Ответственный</label>
+                <select id="task-assignee" required>
+                  <option value="">Выберите ответственного</option>
+                  <option value="Иванов Иван Иванович">Иванов Иван Иванович</option>
+                  <option value="Петров Петр Петрович">Петров Петр Петрович</option>
+                  <option value="Сидорова Мария Сергеевна">Сидорова Мария Сергеевна</option>
+                  <option value="Козлов Алексей Дмитриевич">Козлов Алексей Дмитриевич</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="task-deadline">Срок выполнения</label>
+                <input type="date" id="task-deadline" required>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-submit" id="task-submit-btn">Создать задачу</button>
+            </div>
+          </form>
+        </div>
       </div>
-      
-      <div class="task-item">
-        <h3>Завершить проект "Оптимизация"</h3>
-        <p>Завершить все работы по проекту и подготовить финальную презентацию.</p>
-        <div class="task-date">Срок: 30 марта 2025</div>
-        <div class="task-status status-completed">Завершена</div>
+
+      <div class="tasks-controls">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="task-search" placeholder="Поиск по задачам...">
+        </div>
+        <div class="filter-controls">
+          <select id="status-filter">
+            <option value="all">Все статусы</option>
+            <option value="completed">Выполненные</option>
+            <option value="not-completed">Не выполненные</option>
+          </select>
+          <select id="assignee-filter">
+            <option value="all">Все ответственные</option>
+            <option value="Иванов Иван Иванович">Иванов И.И.</option>
+            <option value="Петров Петр Петрович">Петров П.П.</option>
+            <option value="Сидорова Мария Сергеевна">Сидорова М.С.</option>
+            <option value="Козлов Алексей Дмитриевич">Козлов А.Д.</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="tasks-container">
+        <div class="task-item" data-id="1">
+          <div class="task-header">
+            <h3>Подготовить квартальный отчет</h3>
+            <div class="task-actions">
+              <button class="task-action-btn edit-task" title="Редактировать задачу">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="task-action-btn delete-task" title="Удалить задачу">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          <p>Собрать данные за последний квартал и подготовить итоговый отчет для руководства.</p>
+          <div class="task-details">
+            <div class="task-detail">
+              <strong>Постановщик:</strong> Администратор
+            </div>
+            <div class="task-detail">
+              <strong>Ответственный:</strong> Иванов Иван Иванович
+            </div>
+            <div class="task-detail">
+              <strong>Срок:</strong> 25 марта 2025
+            </div>
+          </div>
+          <div class="task-footer">
+            <div class="task-status status-not-completed">Не выполнена</div>
+            <button class="btn btn-success change-status-btn">Отметить выполненной</button>
+          </div>
+        </div>
+        
+        <div class="task-item" data-id="2">
+          <div class="task-header">
+            <h3>Провести обучение новых сотрудников</h3>
+            <div class="task-actions">
+              <button class="task-action-btn edit-task" title="Редактировать задачу">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="task-action-btn delete-task" title="Удалить задачу">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          <p>Организовать и провести вводный инструктаж для новых членов команды.</p>
+          <div class="task-details">
+            <div class="task-detail">
+              <strong>Постановщик:</strong> Администратор
+            </div>
+            <div class="task-detail">
+              <strong>Ответственный:</strong> Иванов Иван Иванович
+            </div>
+            <div class="task-detail">
+              <strong>Срок:</strong> 20 марта 2025
+            </div>
+          </div>
+          <div class="task-footer">
+            <div class="task-status status-not-completed">Не выполнена</div>
+            <button class="btn btn-success change-status-btn">Отметить выполненной</button>
+          </div>
+        </div>
+        
+        <div class="task-item" data-id="3">
+          <div class="task-header">
+            <h3>Завершить проект "Оптимизация"</h3>
+            <div class="task-actions">
+              <button class="task-action-btn edit-task" title="Редактировать задачу">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="task-action-btn delete-task" title="Удалить задачу">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          <p>Завершить все работы по проекту и подготовить финальную презентацию.</p>
+          <div class="task-details">
+            <div class="task-detail">
+              <strong>Постановщик:</strong> Администратор
+            </div>
+            <div class="task-detail">
+              <strong>Ответственный:</strong> Иванов Иван Иванович
+            </div>
+            <div class="task-detail">
+              <strong>Срок:</strong> 30 марта 2025
+            </div>
+          </div>
+          <div class="task-footer">
+            <div class="task-status status-completed">Выполнена</div>
+            <button class="btn btn-secondary change-status-btn">Вернуть в работу</button>
+          </div>
+        </div>
       </div>
     </section>
   </main>
