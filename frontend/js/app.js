@@ -1,15 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
   const newsLink = document.getElementById('news-link');
   const tasksLink = document.getElementById('tasks-link');
+  const managementLink = document.getElementById('management-link');
   const newsSection = document.getElementById('news-section');
   const tasksSection = document.getElementById('tasks-section');
+  const managementSection = document.getElementById('management-section');
+
   
   function switchSection(activeSection, activeLink) {
     newsSection.classList.add('hidden');
     tasksSection.classList.add('hidden');
+    managementSection.classList.add('hidden');
     
     newsLink.classList.remove('active');
     tasksLink.classList.remove('active');
+    managementLink.classList.remove('active');
     
     activeSection.classList.remove('hidden');
     activeLink.classList.add('active');
@@ -21,6 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
   tasksLink.addEventListener('click', function() {
     switchSection(tasksSection, tasksLink);
+  });
+
+  managementLink.addEventListener('click', function() {
+    switchSection(managementSection, managementLink);
   });
   
   switchSection(newsSection, newsLink);
