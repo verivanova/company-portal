@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+a:hover {
+    cursor: pointer;
+}
+
 body {
     font-family: Segoe UI;
     background-color: #f8fafc;
@@ -306,6 +310,8 @@ body {
 /*Форма*/
 .form-group {
     margin-bottom: 24px;
+    max-width: 900px;
+    width: 100%;
 }
 
 .form-group label {
@@ -333,6 +339,45 @@ body {
 }
 
 .form-group input:hover {
+    border-color: #9ca3af;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+}
+.form-group textarea:focus {
+    outline: none;
+    border-color: #1d53c7;
+    box-shadow: 0 0 0 3px rgba(29, 83, 199, 0.1);
+}
+
+.form-group textarea:hover {
+    border-color: #9ca3af;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: #1d53c7;
+    box-shadow: 0 0 0 3px rgba(29, 83, 199, 0.1);
+}
+
+.form-group select:hover {
     border-color: #9ca3af;
 }
 
@@ -377,15 +422,6 @@ body {
 
 .btn-secondary:hover {
     background: #475569;
-}
-
-.btn-success {
-    background: #10b981;
-    color: white;
-}
-
-.btn-success:hover {
-    background: #059669;
 }
 
 .btn-danger {
@@ -546,7 +582,7 @@ body {
     }
 }
 
-/*Стили для ленты новостей и задач*/
+/*Лента новостей и задачи*/
 .section-content {
         padding: 40px 5%;
         max-width: 1200px;
@@ -581,6 +617,59 @@ body {
         font-weight: 500;
     }
 
+    .section-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .add-news-btn {
+            background: #1d53c7;
+            color: white;
+            padding: 13px 25px;
+            border-radius: 8px;
+            border: none;
+            font-size: 19px;
+            font-weight: 550;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+    .add-news-btn:hover {
+        background: #1641b8;
+        transform: translateY(-1px);
+        box-shadow: 0 5px 5px rgba(29, 83, 199, 0.2);
+    }
+
+    .publish-form {
+        background: white;
+        padding: 32px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        margin-bottom: 32px;
+        animation: fadeIn 0.3s ease-out;
+        width: 100% !important;
+        height: auto !important;
+        max-width: none !important;
+        min-height: auto !important;
+        padding: 32px !important;
+    }
+
+    .publish-btn {
+            background: #1d53c7;
+            color: white;
+            width: 100%;
+            font-size: 18px;
+        }
+
+    .publish-btn:hover {
+        background: #1641b8;
+        transform: translateY(-1px);
+        box-shadow: 0 5px 5px rgba(29, 83, 199, 0.2);
+    }
+
     .task-status {
         display: inline-block;
         padding: 4px 12px;
@@ -590,17 +679,235 @@ body {
         margin-top: 10px;
     }
 
-    .status-new {
+    .status-not-completed {
         background: #dbeafe;
         color: #1d53c7;
-    }
-
-    .status-in-progress {
-        background: #fef3c7;
-        color: #d97706;
     }
 
     .status-completed {
         background: #d1fae5;
         color: #065f46;
     }
+
+    .btn-success {
+        background: #10b981;
+        color: white;
+        display: inline-block;
+        padding: 10px 12px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+
+    .btn-success:hover {
+        background: #059669;
+    }
+
+    .tasks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.add-task-btn {
+    background: #1d53c7;
+    color: white;
+    padding: 13px 25px;
+    border-radius: 8px;
+    border: none;
+    font-size: 19px;
+    font-weight: 550;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 54px;
+    margin-left: 234px;
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.add-task-btn:hover {
+  background: #1641b8;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 5px rgba(29, 83, 199, 0.2);
+}
+
+.task-form-container {
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  margin-bottom: 32px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.task-form-card {
+  max-width: 100%;
+}
+
+.news-form-card {
+max-width: 100%;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 24px;
+}
+
+.tasks-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-box i {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px 16px 12px 45px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #1d53c7;
+  box-shadow: 0 0 0 3px rgba(29, 83, 199, 0.1);
+}
+
+.filter-controls {
+  display: flex;
+  gap: 15px;
+}
+
+.filter-controls select {
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-controls select:focus {
+  outline: none;
+  border-color: #1d53c7;
+  box-shadow: 0 0 0 3px rgba(29, 83, 199, 0.1);
+}
+
+.news-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.news-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.news-action-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.news-action-btn:hover {
+  background: #f1f5f9;
+  color: #1d53c7;
+}
+
+.delete-news:hover {
+  color: #ef4444;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.task-action-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.task-action-btn:hover {
+  background: #f1f5f9;
+  color: #1d53c7;
+}
+
+.delete-task:hover {
+  color: #ef4444;
+}
+
+.task-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.task-detail {
+  font-size: 15px;
+  color: #64748b;
+}
+
+.task-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.change-status-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
