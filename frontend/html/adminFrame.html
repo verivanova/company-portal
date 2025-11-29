@@ -15,6 +15,7 @@
           <li><a id="news-link" class="active">Лента новостей</a></li>
           <li><a id="tasks-link">Задачи</a></li>
           <li><a id="management-link">Управление</a></li>
+          <li><a id="logs-link">Журнал действий</a></li>
           <li><a href="#login" class="btn btn-login">Войти в систему</a></li>
         </ul>
     </nav>
@@ -146,6 +147,20 @@
     <section id="management-section" class="section-content hidden">
       <div class="section-header">
         <h2 class="section-title">Управление пользователями</h2>
+      </div>
+    </section>
+
+    <section id="logs-section" class="section-content hidden">
+      <div class="log-section-header">
+        <h2 class="section-title">Журнал действий</h2>
+      </div>
+      
+      <div id="logs-container" class="logs-container">
+        <div class="empty-logs" id="empty-logs-message">
+          <i class="fas fa-clipboard-list"></i>
+          <p>Журнал действий пуст</p>
+          <p style="font-size: 14px; margin-top: 8px;">Здесь будут отображаться все действия в системе</p>
+        </div>
       </div>
     </section>
   </main>

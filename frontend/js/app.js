@@ -1,45 +1,58 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const newsLink = document.getElementById('news-link');
-  const tasksLink = document.getElementById('tasks-link');
-  const managementLink = document.getElementById('management-link');
-  
-  const newsSection = document.getElementById('news-section');
-  const tasksSection = document.getElementById('tasks-section');
-  const managementSection = document.getElementById('management-section');
+      const newsLink = document.getElementById('news-link');
+      const tasksLink = document.getElementById('tasks-link');
+      const managementLink = document.getElementById('management-link');
+      const logsLink = document.getElementById('logs-link');
+      
+      const newsSection = document.getElementById('news-section');
+      const tasksSection = document.getElementById('tasks-section');
+      const managementSection = document.getElementById('management-section');
+      const logsSection = document.getElementById('logs-section');
 
   if (newsLink && tasksLink && newsSection && tasksSection) {
     
-    function switchSection(activeSection, activeLink) {
-      if (newsSection) newsSection.classList.add('hidden');
-      if (tasksSection) tasksSection.classList.add('hidden');
-      if (managementSection) managementSection.classList.add('hidden');
-      if (newsLink) newsLink.classList.remove('active');
-      if (tasksLink) tasksLink.classList.remove('active');
-      if (managementLink) managementLink.classList.remove('active');
+      function switchSection(activeSection, activeLink) {
+        if (newsSection) newsSection.classList.add('hidden');
+        if (tasksSection) tasksSection.classList.add('hidden');
+        if (managementSection) managementSection.classList.add('hidden');
+        if (logsSection) logsSection.classList.add('hidden');
+        
+        if (newsLink) newsLink.classList.remove('active');
+        if (tasksLink) tasksLink.classList.remove('active');
+        if (managementLink) managementLink.classList.remove('active');
+        if (logsLink) logsLink.classList.remove('active');
+        
+        if (activeSection) activeSection.classList.remove('hidden');
+        if (activeLink) activeLink.classList.add('active');
+        
+        
+      }
       
-      if (activeSection) activeSection.classList.remove('hidden');
-      if (activeLink) activeLink.classList.add('active');
-    }
-    
-    if (newsLink) {
-      newsLink.addEventListener('click', function() {
-        switchSection(newsSection, newsLink);
-      });
-    }
-    
-    if (tasksLink) {
-      tasksLink.addEventListener('click', function() {
-        switchSection(tasksSection, tasksLink);
-      });
-    }
+      if (newsLink) {
+        newsLink.addEventListener('click', function() {
+          switchSection(newsSection, newsLink);
+        });
+      }
+      
+      if (tasksLink) {
+        tasksLink.addEventListener('click', function() {
+          switchSection(tasksSection, tasksLink);
+        });
+      }
 
-    if (managementLink && managementSection) {
-      managementLink.addEventListener('click', function() {
-        switchSection(managementSection, managementLink);
-      });
-    }
-    
-    switchSection(newsSection, newsLink);
+      if (managementLink && managementSection) {
+        managementLink.addEventListener('click', function() {
+          switchSection(managementSection, managementLink);
+        });
+      }
+      
+      if (logsLink && logsSection) {
+        logsLink.addEventListener('click', function() {
+          switchSection(logsSection, logsLink);
+        });
+      }
+      
+      switchSection(newsSection, newsLink);
   }
 
   const addNewsBtn = document.getElementById('add-news-btn');
