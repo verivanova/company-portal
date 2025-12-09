@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Company Portal - Внутренний портал компании</title>
+  <title>Company Portal | Сотрудник</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -15,6 +15,9 @@
           <li><a id="news-link" class="active">Лента новостей</a></li>
           <li><a id="tasks-link">Задачи</a></li>
           <li><a href="#login" class="btn btn-login">Войти в систему</a></li>
+          <li class="header__menu-item">
+            <button onclick="logout()" class="btn header__btn-login">Выйти</button>
+          </li>
         </ul>
     </nav>
   </header>
@@ -80,5 +83,28 @@
   </footer>
 
   <script src="../js/app.js" ></script>
+  <script>
+    // Простая функция выхода
+    function logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/';
+    }
+
+    // Переключение между разделами
+    document.getElementById('news-link').addEventListener('click', function() {
+      document.getElementById('news-section').classList.remove('hidden');
+      document.getElementById('tasks-section').classList.add('hidden');
+      this.classList.add('active');
+      document.getElementById('tasks-link').classList.remove('active');
+    });
+
+    document.getElementById('tasks-link').addEventListener('click', function() {
+      document.getElementById('tasks-section').classList.remove('hidden');
+      document.getElementById('news-section').classList.add('hidden');
+      this.classList.add('active');
+      document.getElementById('news-link').classList.remove('active');
+    });
+  </script>
 </body>
 </html>
