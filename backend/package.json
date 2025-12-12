@@ -2,10 +2,10 @@
   "name": "company-portal",
   "version": "1.0.0",
   "description": "Внутренний портал компании для управления задачами и новостями",
-  "main": "app.js",
+  "main": "backapp.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start": "node backapp.js",
+    "dev": "nodemon backapp.js",
     "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
