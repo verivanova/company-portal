@@ -911,3 +911,15 @@ max-width: 100%;
   font-size: 14px;
 }
 
+/* Стили для журнала действий */
+    .empty-logs {
+      text-align: center;
+      padding: 40px 20px;
+      color: #64748b;
+    }
+    
+    .empty-logs i {
+      font-size: 48px;
+      margin-bottom: 16px;
+      color: #cbd5e1;
+    }
