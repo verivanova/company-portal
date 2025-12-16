@@ -145,17 +145,59 @@
     </section>
 
     <section id="management-section" class="section-content hidden">
-      <div class="section-header">
-        <h2 class="section-title">Управление пользователями</h2>
-      </div>
-    </section>
+  <div class="section-header">
+    <h2 class="section-title">Управление пользователями</h2>
+    <button class="add-user-btn" id="add-user-btn">
+      <i class="fas fa-plus"></i>
+      Добавить пользователя
+    </button>
+  </div>
+  
+  <div id="user-form-container" class="task-form-container hidden">
+    <div class="task-form-card">
+      <h3 style="margin-bottom: 24px; color: #1e293b;">Добавление нового пользователя</h3>
+      <form id="user-form">
+        <div class="form-group">
+          <label for="user-fullname">ФИО пользователя</label>
+          <input type="text" id="user-fullname" required placeholder="Введите ФИО пользователя">
+        </div>
+        <div class="form-group">
+          <label for="user-email">Email</label>
+          <input type="email" id="user-email" required placeholder="Введите email пользователя">
+        </div>
+        <div class="form-group">
+          <label for="user-role">Роль</label>
+          <select id="user-role" required>
+            <option value="">Выберите роль</option>
+            <option value="employee">Сотрудник</option>
+            <option value="admin">Администратор</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="user-password">Пароль</label>
+          <input type="password" id="user-password" required placeholder="Введите пароль">
+        </div>
+        <div class="form-group">
+          <label for="user-password-confirm">Подтверждение пароля</label>
+          <input type="password" id="user-password-confirm" required placeholder="Подтвердите пароль">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-submit">Создать пользователя</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div id="users-container">
+  </div>
+</section>
 
-    <section id="logs-section" class="section-content hidden">
+    <section id="actionLog-section" class="section-content hidden">
       <div class="log-section-header">
         <h2 class="section-title">Журнал действий</h2>
       </div>
       
-      <div id="logs-container" class="logs-container">
+      <div id="actionLog-container" class="logs-container">
         <div class="empty-logs" id="empty-logs-message">
           <i class="fas fa-clipboard-list"></i>
           <p>Журнал действий пуст</p>

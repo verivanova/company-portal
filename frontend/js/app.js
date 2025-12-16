@@ -2,12 +2,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const newsLink = document.getElementById('news-link');
       const tasksLink = document.getElementById('tasks-link');
       const managementLink = document.getElementById('management-link');
-      const logsLink = document.getElementById('actionLog-link');
+      const actionLogLink = document.getElementById('actionLog-link');
       
       const newsSection = document.getElementById('news-section');
       const tasksSection = document.getElementById('tasks-section');
       const managementSection = document.getElementById('management-section');
-      const logsSection = document.getElementById('logs-section');
+      const actionLogSection = document.getElementById('actionLog-section');
 
   if (newsLink && tasksLink && newsSection && tasksSection) {
     
@@ -15,12 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (newsSection) newsSection.classList.add('hidden');
         if (tasksSection) tasksSection.classList.add('hidden');
         if (managementSection) managementSection.classList.add('hidden');
-        if (logsSection) logsSection.classList.add('hidden');
+        if (actionLogSection) actionLogSection.classList.add('hidden');
         
         if (newsLink) newsLink.classList.remove('active');
         if (tasksLink) tasksLink.classList.remove('active');
         if (managementLink) managementLink.classList.remove('active');
-        if (logsLink) logsLink.classList.remove('active');
+        if (actionLogLink) actionLogLink.classList.remove('active');
         
         if (activeSection) activeSection.classList.remove('hidden');
         if (activeLink) activeLink.classList.add('active');
@@ -43,12 +43,13 @@ document.addEventListener('DOMContentLoaded', function() {
       if (managementLink && managementSection) {
         managementLink.addEventListener('click', function() {
           switchSection(managementSection, managementLink);
+          loadUsers();
         });
       }
       
-      if (logsLink && logsSection) {
-        logsLink.addEventListener('click', function() {
-          switchSection(logsSection, logsLink);
+      if (actionLogLink && actionLogSection) {
+        actionLogLink.addEventListener('click', function() {
+          switchSection(actionLogSection, actionLogLink);
         });
       }
       
@@ -65,6 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('news-title').focus();
     }
   });
+
+
 
   const addTaskBtn = document.getElementById('add-task-btn');
   const taskFormContainer = document.getElementById('task-form-container');
@@ -287,8 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     filterTasks();
-  }
-});
+  };
 
 const newsForm = document.getElementById('news-form');
 
@@ -349,3 +351,236 @@ function deleteNews(newsElement) {
     }, 300);
   }
 }
+
+const addUserBtn = document.getElementById('add-user-btn');
+const userFormContainer = document.getElementById('user-form-container');
+const userForm = document.getElementById('user-form');
+const usersContainer = document.getElementById('users-container');
+
+let users = [
+  { 
+    id: 1, 
+    fullName: "Иванов Иван Иванович", 
+    email: "ivanov@company.com", 
+    role: "admin",
+    dateCreated: "10.11.2025",
+    isLocked: false
+  },
+  { 
+    id: 2, 
+    fullName: "Петров Петр Петрович", 
+    email: "petrov@company.com", 
+    role: "employee",
+    dateCreated: "12.11.2025",
+    isLocked: false
+  },
+  { 
+    id: 3, 
+    fullName: "Сидорова Мария Сергеевна", 
+    email: "sidorova@company.com", 
+    role: "employee",
+    dateCreated: "15.11.2025",
+    isLocked: true
+  }
+];
+
+if (addUserBtn && userFormContainer) {
+  addUserBtn.addEventListener('click', function() {
+    userFormContainer.classList.toggle('hidden');
+    
+    if (!userFormContainer.classList.contains('hidden')) {
+      document.getElementById('user-fullname').focus();
+    }
+  });
+}
+
+if (userForm) {
+  userForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const fullName = document.getElementById('user-fullname').value;
+    const email = document.getElementById('user-email').value;
+    const role = document.getElementById('user-role').value;
+    const password = document.getElementById('user-password').value;
+    const passwordConfirm = document.getElementById('user-password-confirm').value;
+    
+    if (password !== passwordConfirm) {
+      alert('Пароли не совпадают!');
+      return;
+    }
+    
+    if (users.some(user => user.email === email)) {
+      alert('Пользователь с таким email уже существует!');
+      return;
+    }
+    
+    const newUser = {
+      id: Date.now(),
+      fullName: fullName,
+      email: email,
+      role: role,
+      dateCreated: new Date().toLocaleDateString('ru-RU'),
+      isLocked: false
+    };
+    
+    users.push(newUser);
+    
+    loadUsers();
+    
+    userForm.reset();
+    userFormContainer.classList.add('hidden');
+    
+    addActionLog('Пользователь добавлен', `Добавлен новый пользователь: ${fullName} (${role})`);
+  });
+}
+
+function loadUsers() {
+  if (!usersContainer) return;
+  
+  usersContainer.innerHTML = '';
+  
+  if (users.length === 0) {
+    usersContainer.innerHTML = `
+      <div class="empty-users">
+        <i class="fas fa-users"></i>
+        <p>Пользователи не найдены</p>
+        <p style="font-size: 14px; margin-top: 8px;">Добавьте первого пользователя</p>
+      </div>
+    `;
+    return;
+  }
+  
+  users.forEach(user => {
+    const userClass = user.isLocked ? 'user-item locked' : 'user-item';
+    const lockStatus = user.isLocked ? 'Заблокирован' : 'Активен';
+    const statusClass = user.isLocked ? 'lock-status locked' : 'lock-status active';
+    const lockIcon = user.isLocked ? 'fa-lock-open' : 'fa-lock';
+    const lockTitle = user.isLocked ? 'Разблокировать пользователя' : 'Заблокировать пользователя';
+    const lockBtnClass = user.isLocked ? 'user-action-btn unlock-btn' : 'user-action-btn lock-btn';
+    
+    const userHTML = `
+      <div class="${userClass}" data-id="${user.id}">
+        <div class="user-header">
+          <h3>${user.fullName}</h3>
+          <div class="user-actions">
+            <button class="${lockBtnClass}" title="${lockTitle}">
+              <i class="fas ${lockIcon}"></i>
+            </button>
+            <button class="user-action-btn delete-btn" title="Удалить пользователя">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+        <div class="user-details">
+          <div class="user-detail">
+            <strong>Email:</strong> ${user.email}
+          </div>
+          <div class="user-detail">
+            <strong>Роль:</strong> ${user.role === 'admin' ? 'Администратор' : 'Сотрудник'}
+          </div>
+          <div class="user-detail">
+            <strong>Дата добавления:</strong> ${user.dateCreated}
+          </div>
+        </div>
+        <div class="${statusClass}">${lockStatus}</div>
+      </div>
+    `;
+    
+    usersContainer.insertAdjacentHTML('beforeend', userHTML);
+  });
+}
+
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.lock-btn') || e.target.closest('.unlock-btn')) {
+    const userItem = e.target.closest('.user-item');
+    toggleUserLock(userItem);
+  }
+  
+  if (e.target.closest('.delete-btn')) {
+    const userItem = e.target.closest('.user-item');
+    deleteUser(userItem);
+  }
+});
+
+function toggleUserLock(userElement) {
+  const userId = parseInt(userElement.dataset.id);
+  const userIndex = users.findIndex(user => user.id === userId);
+  
+  if (userIndex === -1) return;
+  
+  users[userIndex].isLocked = !users[userIndex].isLocked;
+  const user = users[userIndex];
+  
+  loadUsers();
+  
+  const action = user.isLocked ? 'Пользователь заблокирован' : 'Пользователь разблокирован';
+  addActionLog(action, `${user.fullName} (${user.email})`);
+  
+  alert(user.isLocked ? 
+    'Пользователь заблокирован. Доступ к системе ограничен.' : 
+    'Пользователь разблокирован. Доступ восстановлен.'
+  );
+}
+
+function deleteUser(userElement) {
+  if (!confirm('Вы уверены, что хотите удалить этого пользователя?')) return;
+  
+  const userId = parseInt(userElement.dataset.id);
+  const userIndex = users.findIndex(user => user.id === userId);
+  
+  if (userIndex === -1) return;
+  
+  const deletedUser = users[userIndex];
+  
+  users = users.filter(user => user.id !== userId);
+  
+  userElement.style.animation = 'fadeOut 0.3s ease-out';
+  setTimeout(() => {
+    userElement.remove();
+    
+    if (users.length === 0) {
+      loadUsers();
+    }
+  }, 300);
+  
+  addActionLog('Пользователь удален', `${deletedUser.fullName} (${deletedUser.email})`);
+}
+
+loadUsers();
+
+function addActionLog(action, details) {
+  const logContainer = document.getElementById('actionLog-container');
+  const emptyLogsMessage = document.getElementById('empty-logs-message');
+  
+  if (!logContainer) return;
+  
+  if (emptyLogsMessage) {
+    emptyLogsMessage.classList.add('hidden');
+  }
+  
+  const currentTime = new Date().toLocaleTimeString('ru-RU', { 
+    hour: '2-digit', 
+    minute: '2-digit' 
+  });
+  const currentDate = new Date().toLocaleDateString('ru-RU');
+  
+  const logHTML = `
+    <div class="log-item">
+      <div class="log-icon">
+        <i class="fas fa-user-cog"></i>
+      </div>
+      <div class="log-content">
+        <div class="log-header">
+          <span class="log-action">${action}</span>
+          <span class="log-time">${currentTime}</span>
+        </div>
+        <p class="log-details">${details}</p>
+        <div class="log-date">${currentDate}</div>
+      </div>
+    </div>
+  `;
+  
+  logContainer.insertAdjacentHTML('afterbegin', logHTML);
+}
+
+});

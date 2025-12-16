@@ -733,6 +733,27 @@ body {
   box-shadow: 0 5px 5px rgba(29, 83, 199, 0.2);
 }
 
+.add-user-btn{
+    background: #1d53c7;
+    color: white;
+    padding: 13px 25px;
+    border-radius: 8px;
+    border: none;
+    font-size: 19px;
+    font-weight: 550;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.add-user-btn:hover{
+    background: #1641b8;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 5px rgba(29, 83, 199, 0.2);
+}
+
 .task-form-container {
   background: white;
   padding: 32px;
@@ -923,3 +944,138 @@ max-width: 100%;
       margin-bottom: 16px;
       color: #cbd5e1;
     }
+
+    .user-item {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.user-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.user-item.locked {
+  background-color: #fef2f2;
+  border-left: 4px solid #ef4444;
+  opacity: 0.8;
+}
+
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.user-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.user-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.user-detail {
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.user-detail strong {
+  color: #334155;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.user-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.user-action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.user-action-btn:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+  transform: scale(1.05);
+}
+
+.user-action-btn.lock-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.user-action-btn.unlock-btn:hover {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.user-action-btn.delete-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.lock-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 12px;
+}
+
+.lock-status.locked {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.lock-status.active {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.empty-users {
+  text-align: center;
+  padding: 60px 20px;
+  color: #64748b;
+}
+
+.empty-users i {
+  font-size: 48px;
+  color: #cbd5e1;
+  margin-bottom: 16px;
+}
+
+.empty-users p {
+  font-size: 16px;
+  margin: 0;
+}
