@@ -1,0 +1,64 @@
+@use '../abstracts' as a;
+.features {
+    padding: 80px 0;
+    background: var(--color-white);
+    @include a.section-spacing;
+
+    &__inner{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+    }
+    
+    &__title{
+        @include a.section-title;
+    }
+
+    &__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+    align-items: stretch;
+    }
+
+    &__card {
+      background: var(--color-background);
+      padding: 32px 24px;
+      border-radius: 12px;
+      text-align: center;
+      transition: all 0.3s ease;
+      animation: fadeIn 0.6s ease-out;
+      height: 100%;
+      display: flex; 
+      flex-direction: column;
+      
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      }
+    }
+    
+    &__card-icon {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 43px;
+      color: var(--color-icon);
+    }
+
+    &__card-title {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    &__card-text {
+      color: var(--color-second-text);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+}
+
+

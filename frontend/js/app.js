@@ -108,16 +108,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const statusValue = statusFilter.value;
     const assigneeValue = assigneeFilter.value;
     
-    const tasks = document.querySelectorAll('.task-item');
+    const tasks = document.querySelectorAll('.tasks__item');
     
     tasks.forEach(task => {
       const title = task.querySelector('h3').textContent.toLowerCase();
       const description = task.querySelector('p').textContent.toLowerCase();
-      const assigneeElement = task.querySelector('.task-detail:nth-child(2)');
+      const assigneeElement = task.querySelector('.tasks__detail:nth-child(2)');
       const assignee = assigneeElement ? assigneeElement.textContent.replace('Ответственный:', '').trim().toLowerCase() : '';
-      const deadlineElement = task.querySelector('.task-detail:nth-child(3)');
+      const deadlineElement = task.querySelector('.tasks__detail:nth-child(3)');
       const deadline = deadlineElement ? deadlineElement.textContent.replace('Срок:', '').trim().toLowerCase() : '';
-      const status = task.querySelector('.task-status').textContent.toLowerCase();
+      const status = task.querySelector('.tasks__status').textContent.toLowerCase();
       
       const matchesSearch = searchText === '' || 
         title.includes(searchText) || 
@@ -150,10 +150,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const formattedDeadline = new Date(deadline).toLocaleDateString('ru-RU');
     
     const taskHTML = `
-      <div class="task-item" data-id="${taskId}">
-        <div class="task-header">
+      <div class="tasks__item" data-id="${taskId}">
+        <div class="tasks__item-header">
           <h3>${title}</h3>
-          <div class="task-actions">
+          <div class="tasks__actions">
             <button class="task-action-btn edit-task" title="Редактировать задачу">
               <i class="fas fa-edit"></i>
             </button>
@@ -163,20 +163,20 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
         <p>${description}</p>
-        <div class="task-details">
-          <div class="task-detail">
+        <div class="tasks__details">
+          <div class="tasks__detail">
             <strong>Постановщик:</strong> ${manager}
           </div>
-          <div class="task-detail">
+          <div class="tasks__detail">
             <strong>Ответственный:</strong> ${assignee}
           </div>
-          <div class="task-detail">
+          <div class="tasks__detail">
             <strong>Срок:</strong> ${formattedDeadline}
           </div>
         </div>
-        <div class="task-footer">
-          <div class="task-status status-not-completed">Не выполнена</div>
-          <button class="btn btn-success change-status-btn">Отметить выполненной</button>
+        <div class="tasks__footer">
+          <div class="tasks__status tasks__status-not">Не выполнена</div>
+          <button class="btn tasks__success tasks__status-change">Отметить выполненной</button>
         </div>
       </div>
     `;
@@ -188,17 +188,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.addEventListener('click', function(e) {
     if (e.target.closest('.edit-task')) {
-      const taskItem = e.target.closest('.task-item');
+      const taskItem = e.target.closest('.tasks__item');
       editTask(taskItem);
     }
     
     if (e.target.closest('.delete-task')) {
-      const taskItem = e.target.closest('.task-item');
+      const taskItem = e.target.closest('.tasks__item');
       deleteTask(taskItem);
     }
     
-    if (e.target.closest('.change-status-btn')) {
-      const taskItem = e.target.closest('.task-item');
+    if (e.target.closest('.tasks__status-change')) {
+      const taskItem = e.target.closest('.tasks__item');
       toggleTaskStatus(taskItem);
     }
   });
@@ -206,9 +206,9 @@ document.addEventListener('DOMContentLoaded', function() {
   function editTask(taskElement) {
     const title = taskElement.querySelector('h3').textContent;
     const description = taskElement.querySelector('p').textContent;
-    const manager = taskElement.querySelector('.task-detail:nth-child(1)').textContent.replace('Постановщик: ', '');
-    const assignee = taskElement.querySelector('.task-detail:nth-child(2)').textContent.replace('Ответственный: ', '');
-    const deadline = taskElement.querySelector('.task-detail:nth-child(3)').textContent.replace('Срок: ', '');
+    const manager = taskElement.querySelector('.tasks__detail:nth-child(1)').textContent.replace('Постановщик: ', '');
+    const assignee = taskElement.querySelector('.tasks__detail:nth-child(2)').textContent.replace('Ответственный: ', '');
+    const deadline = taskElement.querySelector('.tasks__detail:nth-child(3)').textContent.replace('Срок: ', '');
     
     const [day, month, year] = deadline.split(' ');
     const months = {
@@ -257,9 +257,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     taskElement.querySelector('h3').textContent = title;
     taskElement.querySelector('p').textContent = description;
-    taskElement.querySelector('.task-detail:nth-child(1)').innerHTML = `<strong>Постановщик:</strong> ${manager}`;
-    taskElement.querySelector('.task-detail:nth-child(2)').innerHTML = `<strong>Ответственный:</strong> ${assignee}`;
-    taskElement.querySelector('.task-detail:nth-child(3)').innerHTML = `<strong>Срок:</strong> ${formattedDeadline}`;
+    taskElement.querySelector('.tasks__detail:nth-child(1)').innerHTML = `<strong>Постановщик:</strong> ${manager}`;
+    taskElement.querySelector('.tasks__detail:nth-child(2)').innerHTML = `<strong>Ответственный:</strong> ${assignee}`;
+    taskElement.querySelector('.tasks__detail:nth-child(3)').innerHTML = `<strong>Срок:</strong> ${formattedDeadline}`;
     
     filterTasks();
   }
@@ -271,19 +271,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function toggleTaskStatus(taskElement) {
-    const statusElement = taskElement.querySelector('.task-status');
-    const buttonElement = taskElement.querySelector('.change-status-btn');
+    const statusElement = taskElement.querySelector('.tasks__status');
+    const buttonElement = taskElement.querySelector('.tasks__status-change');
     
-    if (statusElement.classList.contains('status-not-completed')) {
+    if (statusElement.classList.contains('tasks__status-not')) {
       statusElement.textContent = 'Выполнена';
-      statusElement.className = 'task-status status-completed';
+      statusElement.className = 'tasks__status tasks__status-completed';
       buttonElement.textContent = 'Вернуть в работу';
-      buttonElement.className = 'btn btn-secondary change-status-btn';
+      buttonElement.className = 'btn btn-secondary  tasks__status-change';
     } else {
       statusElement.textContent = 'Не выполнена';
-      statusElement.className = 'task-status status-not-completed';
+      statusElement.className = 'tasks__status tasks__status-not';
       buttonElement.textContent = 'Отметить выполненной';
-      buttonElement.className = 'btn btn-success change-status-btn';
+      buttonElement.className = 'btn tasks__success tasks__status-change';
     }
     
     filterTasks();
@@ -315,19 +315,17 @@ function createNewsItem(title, content) {
   });
   
   const newsHTML = `
-    <div class="news-item" data-id="${newsId}">
-      <div class="news-header">
+    <div class="news__item" data-id="${newsId}">
+      <div class="news__item-header">
         <h3>${title}</h3>
-        <div class="news-actions">
-          <button class="news-action-btn delete-news" title="Удалить новость">
+        <div class="news__actions">
+          <button class="news__btn btn news__delete-news" title="Удалить новость">
             <i class="fas fa-trash"></i>
           </button>
         </div>
       </div>
       <p>${content}</p>
-      <div class="news-footer">
-        <div class="news-date">${currentDate}</div>
-      </div>
+        <div class="news__date">${currentDate}</div>
     </div>
   `;
   
@@ -335,8 +333,8 @@ function createNewsItem(title, content) {
 }
 
 document.addEventListener('click', function(e) {
-  if (e.target.closest('.delete-news')) {
-    const newsItem = e.target.closest('.news-item');
+  if (e.target.closest('.news__delete-news')) {
+    const newsItem = e.target.closest('.news__item');
     deleteNews(newsItem);
   }
 });

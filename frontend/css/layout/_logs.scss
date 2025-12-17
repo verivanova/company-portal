@@ -1,0 +1,24 @@
+@use '../abstracts' as a;
+.logs{
+  &__header{
+    @include a.section-header;
+  }
+  &__title{
+    @include a.section-title;
+  }
+  &__empty{
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--color-second-text);
+
+      & i{
+      font-size: 48px;
+      margin-bottom: 16px;
+      color: var(--color-darker);
+      }
+      & p{
+        font-size: 14px;
+        margin-top: 8px;
+      }
+  }
+}

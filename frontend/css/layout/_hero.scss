@@ -1,0 +1,113 @@
+@use '../abstracts' as a;
+.hero{
+    display: flex;
+    align-items: center;
+    min-height: 80vh;
+    gap: 48px;
+    @include a.section-spacing;
+
+    &__inner{
+      text-align: center;
+        padding: 64px 5% 64px 3%;
+
+      margin-left: 200px;
+      max-width: 800px;
+
+      &-title{
+        font-size: 50px;
+        text-wrap-mode: wrap;
+        font-weight: 800;
+        margin-bottom: 22px;
+        margin-top: 0;
+        line-height: 1.2;
+        background-clip: text;
+        text-align: left;
+        animation: fadeIn 0.6s ease-out;
+        max-width: 100%;
+      }
+      &-subtitle{
+        font-size: 22px;
+        color: var(--color-second-text);
+        margin-bottom: 32px;
+        line-height: 1.6;
+        font-weight: 400;
+        text-align: left;
+        max-width: 580px;
+        animation: fadeIn 0.8s ease-out;
+      }
+    }
+    &__btns{
+        display: flex;
+        gap: 10px;
+
+        &-start,
+        &-view{
+          font-weight: 700;
+          font-size: 18px;
+        }
+
+        &-start{
+          & a{
+          color: var(--color-white);
+          @include a.reset-link;
+          }
+        }
+
+        &-view{
+          background-color: var(--color-view-button);
+          color: var(--color-text);
+          & a{
+          @include a.reset-link;
+        }
+        &:hover{
+          background-color: var(--color-button-hover) !important; 
+          transform:translateY(-1.5px);
+          transition: 0.3s;
+          box-shadow: 0 5px 5px rgba(211, 211, 211, 0.2) !important;
+        }
+      }
+    }
+
+    &__mockup {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+    &__dashboard {
+    display: flex;
+    width: 520px;
+    height: 310px;
+    background: var(--color-white);
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-right: 300px;
+  }
+
+  &__header {
+    display: flex;
+    height: 20px;
+    background: var(--color-gray-acent);
+    border-radius: 5px;
+  }
+
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+  &-card {
+    display: flex;
+    flex: 1;
+    background: var(--color-background);
+    border-radius: 5px;
+    border: 1px solid var(--color-darker);
+    }
+  }
+}
