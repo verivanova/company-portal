@@ -14,6 +14,7 @@
         <ul class="header-links">
           <li><a id="news-link" class="active">Лента новостей</a></li>
           <li><a id="tasks-link">Задачи</a></li>
+          <li><a id="logs-link">Журнал действий</a></li>
           <li><a href="#login" class="btn btn-login">Войти в систему</a></li>
           <li class="header__menu-item">
             <button onclick="logout()" class="btn header__btn-login">Выйти</button>
@@ -24,49 +25,138 @@
 
   <main class="main">
     <section id="news-section" class="section-content">
-      <h2 class="section-title">Лента новостей</h2>
-      
-      <div class="news-item">
-        <h3>Обновление системы отчетности</h3>
-        <p>С этого месяца вводится новая система отчетности для всех отделов. Пожалуйста, ознакомьтесь с изменениями в разделе документации.</p>
-        <div class="news-date">15 марта 2025</div>
+      <div class="section-header">
+        <h2 class="section-title">Лента новостей</h2>
+      <button class="add-news-btn" id="add-news-btn">
+          <i class="fas fa-plus"></i>
+          Добавить новость
+      </button>
+    </div>
+      <div id="publish-form" class="task-form-container hidden">
+        <div class="news-form-card">
+          <h3 style="margin-bottom: 24px; color: #1e293b;">Публикация новой новости</h3>
+        <form id="news-form">
+          <div class="form-group">
+            <label for="news-title">Заголовок новости</label>
+            <input type="text" id="news-title" required placeholder="Введите заголовок новости">
+          </div>
+          <div class="form-group">
+            <label for="news-content">Содержание новости</label>
+            <textarea id="news-content" required placeholder="Введите текст новости"></textarea>
+          </div>
+          <button type="submit" class="btn publish-btn">Опубликовать новость</button>
+        </form>
+        </div>
       </div>
       
-      <div class="news-item">
-        <h3>Корпоративное мероприятие</h3>
-        <p>Напоминаем о предстоящем корпоративном мероприятии в эту пятницу. Регистрация обязательна для всех сотрудников.</p>
-        <div class="news-date">10 марта 2025</div>
+      <div id="news-container">
+        <div class="news-item">
+          <div class="news-header">
+            <h3>Корпоративное мероприятие</h3>
+            <div class="news-actions">
+              <button class="news-action-btn delete-news" title="Удалить задачу">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          <p>Напоминаем о предстоящем корпоративном мероприятии в эту пятницу. Регистрация обязательна для всех сотрудников.</p>
+          <div class="news-date">25.11.2025</div>
+        </div>
       </div>
       
-      <div class="news-item">
-        <h3>Обновление политики безопасности</h3>
-        <p>IT-отдел выпустил обновленные рекомендации по безопасности. Все сотрудники должны пройти обязательный инструктаж до конца месяца.</p>
-        <div class="news-date">5 марта 2025</div>
-      </div>
     </section>
 
     <section id="tasks-section" class="section-content hidden">
-      <h2 class="section-title">Мои задачи</h2>
-      
-      <div class="task-item">
-        <h3>Подготовить квартальный отчет</h3>
-        <p>Собрать данные за последний квартал и подготовить итоговый отчет для руководства.</p>
-        <div class="task-date">Срок: 25 марта 2025</div>
-        <div class="task-status status-in-progress">В работе</div>
+      <div class="section-header">
+        <h2 class="section-title">Задачи</h2>
+      </div>
+        <button class="add-task-btn" id="add-task-btn">
+          <i class="fas fa-plus"></i>
+          Создать задачу
+        </button>
+
+      <div id="task-form-container" class="task-form-container hidden">
+        <div class="task-form-card">
+          <h3 id="task-form-title" style="margin-bottom: 24px; color: #1e293b;">Создание новой задачи</h3>
+          <form id="task-form">
+            <div class="form-group">
+              <label for="task-title">Название задачи</label>
+              <input type="text" id="task-title" required placeholder="Введите название задачи">
+            </div>
+            <div class="form-group">
+              <label for="task-description">Описание задачи</label>
+              <textarea id="task-description" required placeholder="Введите описание задачи"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="task-manager">Постановщик</label>
+                <select id="task-manager" required>
+                  <option value="">Выберите постановщика</option>
+                  <option value="Иванов Иван Иванович">Иванов Иван Иванович</option>
+                  <option value="Петров Петр Петрович">Петров Петр Петрович</option>
+                  <option value="Сидорова Мария Сергеевна">Сидорова Мария Сергеевна</option>
+                  <option value="Козлов Алексей Дмитриевич">Козлов Алексей Дмитриевич</option>
+                </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="task-assignee">Ответственный</label>
+                <select id="task-assignee" required>
+                  <option value="">Выберите ответственного</option>
+                  <option value="Иванов Иван Иванович">Иванов Иван Иванович</option>
+                  <option value="Петров Петр Петрович">Петров Петр Петрович</option>
+                  <option value="Сидорова Мария Сергеевна">Сидорова Мария Сергеевна</option>
+                  <option value="Козлов Алексей Дмитриевич">Козлов Алексей Дмитриевич</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="task-deadline">Срок выполнения</label>
+                <input type="date" id="task-deadline" required>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-submit" id="task-submit-btn">Создать задачу</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="tasks-controls">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="task-search" placeholder="Поиск по задачам...">
+        </div>
+        <div class="filter-controls">
+          <select id="status-filter">
+            <option value="all">Все статусы</option>
+            <option value="completed">Выполненные</option>
+            <option value="not-completed">Не выполненные</option>
+          </select>
+          <select id="assignee-filter">
+            <option value="all">Все ответственные</option>
+            <option value="Иванов Иван Иванович">Иванов И.И.</option>
+            <option value="Петров Петр Петрович">Петров П.П.</option>
+            <option value="Сидорова Мария Сергеевна">Сидорова М.С.</option>
+            <option value="Козлов Алексей Дмитриевич">Козлов А.Д.</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="tasks-container">
+        
+      </div>
+    </section>
+
+    <section id="logs-section" class="section-content hidden">
+      <div class="log-section-header">
+        <h2 class="section-title">Журнал действий</h2>
       </div>
       
-      <div class="task-item">
-        <h3>Провести обучение новых сотрудников</h3>
-        <p>Организовать и провести вводный инструктаж для новых членов команды.</p>
-        <div class="task-date">Срок: 20 марта 2025</div>
-        <div class="task-status status-new">Новая</div>
-      </div>
-      
-      <div class="task-item">
-        <h3>Завершить проект "Оптимизация"</h3>
-        <p>Завершить все работы по проекту и подготовить финальную презентацию.</p>
-        <div class="task-date">Срок: 30 марта 2025</div>
-        <div class="task-status status-completed">Завершена</div>
+      <div id="logs-container" class="logs-container">
+        <div class="empty-logs" id="empty-logs-message">
+          <i class="fas fa-clipboard-list"></i>
+          <p>Журнал действий пуст</p>
+          <p style="font-size: 14px; margin-top: 8px;">Здесь будут отображаться все действия в системе</p>
+        </div>
       </div>
     </section>
   </main>
