@@ -1,0 +1,140 @@
+@use '../abstracts' as a;
+.news {
+        @include a.section-content;
+        @include a.section-spacing;
+
+        &__header {
+        @include a.section-header;
+    }
+        &__title{
+          @include a.section-title;
+    }
+        &__add{
+          display: inline-flex;
+          align-items: center;
+          gap: 15px;
+          font-size: 19px !important;
+    }
+        &__form {
+          background: var(--color-white);
+          padding: 32px;
+          border-radius: 12px;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+          margin-bottom: 32px;
+          animation: fadeIn 0.3s ease-out;
+            &-card {
+            max-width: 100%;
+          }
+            h3{
+              margin-bottom: 24px;
+          }
+    }
+    &__item{
+      @include a.item;
+
+      h3 {
+        @include a.item-h3;
+    }
+
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+    }
+    
+    p {
+        @include a.item-p;
+    }
+  }
+
+    &__actions{
+        display: flex;
+        gap: 10px;
+    }
+    &__btn{
+        color: var(--color-second-text) !important;
+        background: none !important;
+    }
+    &__delete-news:hover{
+        color: var(--color-error);
+    }
+    &__date{
+      @include a.date;
+    }
+
+    &__inner{
+      margin-bottom: 24px;
+    max-width: 900px;
+    width: 100%;
+    & label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #374151;
+    font-size: 17px;
+  }
+    & input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--color-second-border);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: var(--color-white);
+    
+    &:focus {
+    outline: none;
+    border-color: var(--color-main);
+    box-shadow: 0 0 0 3px rgba(29, 83, 199, 0.1);
+    }
+
+    &:hover {
+    border-color: var(--color-gray-border);
+    }
+  }
+  & select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+    &:focus {
+    outline: none;
+    border-color: #1d53c7;
+    box-shadow: 0 0 0 3px rgba(29, 83, 199, 0.1);
+}
+
+  &:hover {
+      border-color: #9ca3af;
+  }
+}
+
+
+  & textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--color-second-border);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: var(--color-white);
+
+    &:focus {
+    outline: none;
+    border-color: var(--color-main);
+    box-shadow: 0 0 0 3px rgba(29, 83, 199, 0.1);
+    }
+    &:hover {
+    border-color: var(--color-gray-border);
+    }
+  }
+}
+&__row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+}

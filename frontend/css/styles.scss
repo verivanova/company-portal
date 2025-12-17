@@ -1,5 +1,6 @@
 @use 'abstracts';
 @use 'components';
+
 @use 'layout/header';
 @use 'layout/hero';
 @use 'layout/main';
@@ -7,3 +8,8 @@
 @use 'layout/login';
 @use 'layout/about';
 @use 'layout/footer';
+
+@use 'layout/news';
+@use 'layout/tasks';
+@use 'layout/management';
+@use 'layout/logs';

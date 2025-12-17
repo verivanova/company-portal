@@ -5,6 +5,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    @include a.section-spacing;
 
   &__logo {
     font-size: 26px;
@@ -73,6 +74,20 @@
 
     &::after{
       display: none;
+    }
+  }
+  &__btn-logout{
+    padding: 10px 24px !important;
+    background-color: var(--color-view-button) !important;
+    color: var(--color-text) !important;
+    animation: none !important;
+    font-weight: 700;
+
+    &:hover{
+        background-color: var(--color-button-hover) !important; 
+        transform:translateY(-1.5px);
+        transition: 0.3s;
+        box-shadow: 0 5px 5px rgba(211, 211, 211, 0.2) !important;
     }
   }
 }

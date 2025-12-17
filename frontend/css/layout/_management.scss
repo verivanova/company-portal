@@ -1,0 +1,9 @@
+@use '../abstracts' as a;
+.management{
+  &__header{
+    @include a.section-header;
+  }
+  &__title{
+    @include a.section-title;
+  }
+}

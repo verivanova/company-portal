@@ -1,3 +1,4 @@
+
 @mixin reset-link{
   color: inherit;
 
@@ -29,3 +30,42 @@
     margin-bottom: 48px;
     color: var(--color-text);
 }
+
+@mixin item{
+        background: var(--color-white);
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        margin-bottom: 20px;
+        border-left: 4px solid var(--color-main);
+}
+
+@mixin item-h3{
+        color: var(--color-text);
+        margin-bottom: 12px;
+        font-size: 20px;
+}
+
+@mixin item-p{
+        color: var(--color-second-text);
+        line-height: 1.6;
+        margin-bottom: 16px;
+}
+
+@mixin date{
+      color: var(--color-gray-border);
+        font-size: 14px;
+        font-weight: 500;
+}
+
+@mixin section-content {
+        padding: 40px 5%;
+        max-width: 1200px;
+        margin: 0 auto;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+@mixin section-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
