@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const newsLink = document.getElementById('news-link');
       const tasksLink = document.getElementById('tasks-link');
       const managementLink = document.getElementById('management-link');
-      const logsLink = document.getElementById('logs-link');
+      const logsLink = document.getElementById('actionLog-link');
       
       const newsSection = document.getElementById('news-section');
       const tasksSection = document.getElementById('tasks-section');
