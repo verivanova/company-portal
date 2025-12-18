@@ -79,7 +79,7 @@
     </section>
 
 <section id="tasks-section" class="tasks hidden">
-  <div class="tasks__header">
+  <div class="tasks__header container">
     <h2 class="tasks__title">Задачи</h2>
   </div>
   
@@ -160,27 +160,27 @@
     </section>
 
     <section id="management-section" class="management hidden">
-  <div class="section-header">
-    <h2 class="section-title">Управление пользователями</h2>
+  <div class="management__header container">
+    <h2 class="management__title">Управление пользователями</h2>
     <button class="management__add btn" id="add-user-btn">
       <i class="fas fa-plus"></i>
       Добавить пользователя
     </button>
   </div>
   
-  <div id="user-form-container" class="task-form-container hidden">
-    <div class="task-form-card">
-      <h3 style="margin-bottom: 24px; color: #1e293b;">Добавление нового пользователя</h3>
+  <div id="user-form-container" class="management__container hidden">
+    <div class="management__container-card">
+      <h3>Добавление нового пользователя</h3>
       <form id="user-form">
-        <div class="form-group">
+        <div class="management__inner">
           <label for="user-fullname">ФИО пользователя</label>
           <input type="text" id="user-fullname" required placeholder="Введите ФИО пользователя">
         </div>
-        <div class="form-group">
+        <div class="management__inner">
           <label for="user-email">Email</label>
           <input type="email" id="user-email" required placeholder="Введите email пользователя">
         </div>
-        <div class="form-group">
+        <div class="management__inner">
           <label for="user-role">Роль</label>
           <select id="user-role" required>
             <option value="">Выберите роль</option>
@@ -188,16 +188,16 @@
             <option value="admin">Администратор</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="management__inner">
           <label for="user-password">Пароль</label>
           <input type="password" id="user-password" required placeholder="Введите пароль">
         </div>
-        <div class="form-group">
+        <div class="management__inner">
           <label for="user-password-confirm">Подтверждение пароля</label>
           <input type="password" id="user-password-confirm" required placeholder="Подтвердите пароль">
         </div>
-        <div class="form-actions">
-          <button type="submit" class="btn btn-submit">Создать пользователя</button>
+        <div class="management__actions">
+          <button type="submit" class="btn">Создать пользователя</button>
         </div>
       </form>
     </div>
@@ -207,13 +207,13 @@
   </div>
 </section>
 
-    <section id="actionLog-section" class="section-content hidden">
-      <div class="log-section-header">
-        <h2 class="section-title">Журнал действий</h2>
+    <section id="actionLog-section" class="actionLog hidden">
+      <div class="actionLog__header">
+        <h2 class="actionLog__title">Журнал действий</h2>
       </div>
       
-      <div id="actionLog-container" class="logs-container">
-        <div class="empty-logs" id="empty-logs-message">
+      <div id="actionLog-container">
+        <div class="actionlog__empty" id="empty-logs-message">
           <i class="fas fa-clipboard-list"></i>
           <p>Журнал действий пуст</p>
           <p>Здесь будут отображаться все действия в системе</p>

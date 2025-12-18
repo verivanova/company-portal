@@ -1,59 +1,57 @@
 document.addEventListener('DOMContentLoaded', function() {
-      const newsLink = document.getElementById('news-link');
-      const tasksLink = document.getElementById('tasks-link');
-      const managementLink = document.getElementById('management-link');
-      const actionLogLink = document.getElementById('actionLog-link');
-      
-      const newsSection = document.getElementById('news-section');
-      const tasksSection = document.getElementById('tasks-section');
-      const managementSection = document.getElementById('management-section');
-      const actionLogSection = document.getElementById('actionLog-section');
+  const newsLink = document.getElementById('news-link');
+  const tasksLink = document.getElementById('tasks-link');
+  const managementLink = document.getElementById('management-link');
+  const actionLogLink = document.getElementById('actionLog-link');
+  
+  const newsSection = document.getElementById('news-section');
+  const tasksSection = document.getElementById('tasks-section');
+  const managementSection = document.getElementById('management-section');
+  const actionLogSection = document.getElementById('actionLog-section');
 
   if (newsLink && tasksLink && newsSection && tasksSection) {
     
-      function switchSection(activeSection, activeLink) {
-        if (newsSection) newsSection.classList.add('hidden');
-        if (tasksSection) tasksSection.classList.add('hidden');
-        if (managementSection) managementSection.classList.add('hidden');
-        if (actionLogSection) actionLogSection.classList.add('hidden');
-        
-        if (newsLink) newsLink.classList.remove('active');
-        if (tasksLink) tasksLink.classList.remove('active');
-        if (managementLink) managementLink.classList.remove('active');
-        if (actionLogLink) actionLogLink.classList.remove('active');
-        
-        if (activeSection) activeSection.classList.remove('hidden');
-        if (activeLink) activeLink.classList.add('active');
-        
-        
-      }
+    function switchSection(activeSection, activeLink) {
+      if (newsSection) newsSection.classList.add('hidden');
+      if (tasksSection) tasksSection.classList.add('hidden');
+      if (managementSection) managementSection.classList.add('hidden');
+      if (actionLogSection) actionLogSection.classList.add('hidden');
       
-      if (newsLink) {
-        newsLink.addEventListener('click', function() {
-          switchSection(newsSection, newsLink);
-        });
-      }
+      if (newsLink) newsLink.classList.remove('active');
+      if (tasksLink) tasksLink.classList.remove('active');
+      if (managementLink) managementLink.classList.remove('active');
+      if (actionLogLink) actionLogLink.classList.remove('active');
       
-      if (tasksLink) {
-        tasksLink.addEventListener('click', function() {
-          switchSection(tasksSection, tasksLink);
-        });
-      }
+      if (activeSection) activeSection.classList.remove('hidden');
+      if (activeLink) activeLink.classList.add('active');
+    }
+    
+    if (newsLink) {
+      newsLink.addEventListener('click', function() {
+        switchSection(newsSection, newsLink);
+      });
+    }
+    
+    if (tasksLink) {
+      tasksLink.addEventListener('click', function() {
+        switchSection(tasksSection, tasksLink);
+      });
+    }
 
-      if (managementLink && managementSection) {
-        managementLink.addEventListener('click', function() {
-          switchSection(managementSection, managementLink);
-          loadUsers();
-        });
-      }
-      
-      if (actionLogLink && actionLogSection) {
-        actionLogLink.addEventListener('click', function() {
-          switchSection(actionLogSection, actionLogLink);
-        });
-      }
-      
-      switchSection(newsSection, newsLink);
+    if (managementLink && managementSection) {
+      managementLink.addEventListener('click', function() {
+        switchSection(managementSection, managementLink);
+        loadUsers();
+      });
+    }
+    
+    if (actionLogLink && actionLogSection) {
+      actionLogLink.addEventListener('click', function() {
+        switchSection(actionLogSection, actionLogLink);
+      });
+    }
+    
+    switchSection(newsSection, newsLink);
   }
 
   const addNewsBtn = document.getElementById('add-news-btn');
@@ -66,8 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('news-title').focus();
     }
   });
-
-
 
   const addTaskBtn = document.getElementById('add-task-btn');
   const taskFormContainer = document.getElementById('task-form-container');
@@ -128,12 +124,12 @@ document.addEventListener('DOMContentLoaded', function() {
         assignee.includes(searchText) ||
         deadline.includes(searchText);
       
-    let matchesStatus = true;
-    if (statusValue === 'completed') {
+      let matchesStatus = true;
+      if (statusValue === 'completed') {
         matchesStatus = status === 'выполнена'; 
-    } else if (statusValue === 'not-completed') {
+      } else if (statusValue === 'not-completed') {
         matchesStatus = status === 'не выполнена';
-    }
+      }
       
       let matchesAssignee = true;
       if (assigneeValue !== 'all') {
@@ -234,7 +230,6 @@ document.addEventListener('DOMContentLoaded', function() {
     taskFormContainer.classList.remove('hidden');
     document.getElementById('task-title').focus();
     
-    
     taskForm.onsubmit = function(e) {
       e.preventDefault();
       
@@ -292,145 +287,145 @@ document.addEventListener('DOMContentLoaded', function() {
     filterTasks();
   };
 
-const newsForm = document.getElementById('news-form');
+  const newsForm = document.getElementById('news-form');
 
-newsForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-  
-  const title = document.getElementById('news-title').value;
-  const content = document.getElementById('news-content').value;
-  
-  if (title.trim() && content.trim()) {
-    createNewsItem(title, content);
-    
-    newsForm.reset();
-    publishForm.classList.add('hidden');
-  }
-});
-
-function createNewsItem(title, content) {
-  const newsId = Date.now().toString();
-  const currentDate = new Date().toLocaleDateString('ru-RU', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric'
-  });
-  
-  const newsHTML = `
-    <div class="news__item" data-id="${newsId}">
-      <div class="news__item-header">
-        <h3>${title}</h3>
-        <div class="news__actions">
-          <button class="news__btn btn news__delete-news" title="Удалить новость">
-            <i class="fas fa-trash"></i>
-          </button>
-        </div>
-      </div>
-      <p>${content}</p>
-        <div class="news__date">${currentDate}</div>
-    </div>
-  `;
-  
-  document.getElementById('news-container').insertAdjacentHTML('afterbegin', newsHTML);
-}
-
-document.addEventListener('click', function(e) {
-  if (e.target.closest('.news__delete-news')) {
-    const newsItem = e.target.closest('.news__item');
-    deleteNews(newsItem);
-  }
-});
-
-function deleteNews(newsElement) {
-  if (confirm('Вы уверены, что хотите удалить эту новость?')) {
-    newsElement.style.animation = 'fadeOut 0.3s ease-out';
-    setTimeout(() => {
-      newsElement.remove();
-    }, 300);
-  }
-}
-
-const addUserBtn = document.getElementById('add-user-btn');
-const userFormContainer = document.getElementById('user-form-container');
-const userForm = document.getElementById('user-form');
-const usersContainer = document.getElementById('users-container');
-
-let users = [
-  { 
-    id: 1, 
-    fullName: "Иванов Иван Иванович", 
-    email: "ivanov@company.com", 
-    role: "admin",
-    dateCreated: "10.11.2025",
-    isLocked: false
-  },
-  { 
-    id: 2, 
-    fullName: "Петров Петр Петрович", 
-    email: "petrov@company.com", 
-    role: "employee",
-    dateCreated: "12.11.2025",
-    isLocked: false
-  },
-  { 
-    id: 3, 
-    fullName: "Сидорова Мария Сергеевна", 
-    email: "sidorova@company.com", 
-    role: "employee",
-    dateCreated: "15.11.2025",
-    isLocked: true
-  }
-];
-
-if (addUserBtn && userFormContainer) {
-  addUserBtn.addEventListener('click', function() {
-    userFormContainer.classList.toggle('hidden');
-    
-    if (!userFormContainer.classList.contains('hidden')) {
-      document.getElementById('user-fullname').focus();
-    }
-  });
-}
-
-if (userForm) {
-  userForm.addEventListener('submit', function(e) {
+  newsForm.addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const fullName = document.getElementById('user-fullname').value;
-    const email = document.getElementById('user-email').value;
-    const role = document.getElementById('user-role').value;
-    const password = document.getElementById('user-password').value;
-    const passwordConfirm = document.getElementById('user-password-confirm').value;
+    const title = document.getElementById('news-title').value;
+    const content = document.getElementById('news-content').value;
     
-    if (password !== passwordConfirm) {
-      alert('Пароли не совпадают!');
-      return;
+    if (title.trim() && content.trim()) {
+      createNewsItem(title, content);
+      
+      newsForm.reset();
+      publishForm.classList.add('hidden');
     }
-    
-    if (users.some(user => user.email === email)) {
-      alert('Пользователь с таким email уже существует!');
-      return;
-    }
-    
-    const newUser = {
-      id: Date.now(),
-      fullName: fullName,
-      email: email,
-      role: role,
-      dateCreated: new Date().toLocaleDateString('ru-RU'),
-      isLocked: false
-    };
-    
-    users.push(newUser);
-    
-    loadUsers();
-    
-    userForm.reset();
-    userFormContainer.classList.add('hidden');
-    
-    addActionLog('Пользователь добавлен', `Добавлен новый пользователь: ${fullName} (${role})`);
   });
-}
+
+  function createNewsItem(title, content) {
+    const newsId = Date.now().toString();
+    const currentDate = new Date().toLocaleDateString('ru-RU', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric'
+    });
+    
+    const newsHTML = `
+      <div class="news__item" data-id="${newsId}">
+        <div class="news__item-header">
+          <h3>${title}</h3>
+          <div class="news__actions">
+            <button class="news__btn btn news__delete-news" title="Удалить новость">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+        <p>${content}</p>
+        <div class="news__date">${currentDate}</div>
+      </div>
+    `;
+    
+    document.getElementById('news-container').insertAdjacentHTML('afterbegin', newsHTML);
+  }
+
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.news__delete-news')) {
+      const newsItem = e.target.closest('.news__item');
+      deleteNews(newsItem);
+    }
+  });
+
+  function deleteNews(newsElement) {
+    if (confirm('Вы уверены, что хотите удалить эту новость?')) {
+      newsElement.style.animation = 'fadeOut 0.3s ease-out';
+      setTimeout(() => {
+        newsElement.remove();
+      }, 300);
+    }
+  }
+
+  const addUserBtn = document.getElementById('add-user-btn');
+  const userFormContainer = document.getElementById('user-form-container');
+  const userForm = document.getElementById('user-form');
+  const usersContainer = document.getElementById('users-container');
+
+  let users = [
+    { 
+      id: 1, 
+      fullName: "Иванов Иван Иванович", 
+      email: "ivanov@company.com", 
+      role: "admin",
+      dateCreated: "10.11.2025",
+      isLocked: false
+    },
+    { 
+      id: 2, 
+      fullName: "Петров Петр Петрович", 
+      email: "petrov@company.com", 
+      role: "employee",
+      dateCreated: "12.11.2025",
+      isLocked: false
+    },
+    { 
+      id: 3, 
+      fullName: "Сидорова Мария Сергеевна", 
+      email: "sidorova@company.com", 
+      role: "employee",
+      dateCreated: "15.11.2025",
+      isLocked: true
+    }
+  ];
+
+  if (addUserBtn && userFormContainer) {
+    addUserBtn.addEventListener('click', function() {
+      userFormContainer.classList.toggle('hidden');
+      
+      if (!userFormContainer.classList.contains('hidden')) {
+        document.getElementById('user-fullname').focus();
+      }
+    });
+  }
+
+  if (userForm) {
+    userForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const fullName = document.getElementById('user-fullname').value;
+      const email = document.getElementById('user-email').value;
+      const role = document.getElementById('user-role').value;
+      const password = document.getElementById('user-password').value;
+      const passwordConfirm = document.getElementById('user-password-confirm').value;
+      
+      if (password !== passwordConfirm) {
+        alert('Пароли не совпадают!');
+        return;
+      }
+      
+      if (users.some(user => user.email === email)) {
+        alert('Пользователь с таким email уже существует!');
+        return;
+      }
+      
+      const newUser = {
+        id: Date.now(),
+        fullName: fullName,
+        email: email,
+        role: role,
+        dateCreated: new Date().toLocaleDateString('ru-RU'),
+        isLocked: false
+      };
+      
+      users.push(newUser);
+      
+      loadUsers();
+      
+      userForm.reset();
+      userFormContainer.classList.add('hidden');
+      
+      addActionLog('Пользователь добавлен', `Добавлен новый пользователь: ${fullName} (${role})`);
+    });
+  }
 
 function loadUsers() {
   if (!usersContainer) return;
@@ -439,7 +434,7 @@ function loadUsers() {
   
   if (users.length === 0) {
     usersContainer.innerHTML = `
-      <div class="empty-users">
+      <div class="management__empty">
         <i class="fas fa-users"></i>
         <p>Пользователи не найдены</p>
         <p style="font-size: 14px; margin-top: 8px;">Добавьте первого пользователя</p>
@@ -449,19 +444,19 @@ function loadUsers() {
   }
   
   users.forEach(user => {
-    const userClass = user.isLocked ? 'user-item locked' : 'user-item';
+    const isLockedClass = user.isLocked ? 'locked' : '';
     const lockStatus = user.isLocked ? 'Заблокирован' : 'Активен';
     const statusClass = user.isLocked ? 'lock-status locked' : 'lock-status active';
     const lockIcon = user.isLocked ? 'fa-lock-open' : 'fa-lock';
     const lockTitle = user.isLocked ? 'Разблокировать пользователя' : 'Заблокировать пользователя';
-    const lockBtnClass = user.isLocked ? 'user-action-btn unlock-btn' : 'user-action-btn lock-btn';
+    const lockBtnClass = user.isLocked ? 'unlock-btn' : 'lock-btn';
     
     const userHTML = `
-      <div class="${userClass}" data-id="${user.id}">
-        <div class="user-header">
+      <div class="management__item ${isLockedClass}" data-id="${user.id}">
+        <div class="management__item-header">
           <h3>${user.fullName}</h3>
-          <div class="user-actions">
-            <button class="${lockBtnClass}" title="${lockTitle}">
+          <div class="management__actions">
+            <button class="user-action-btn ${lockBtnClass}" title="${lockTitle}">
               <i class="fas ${lockIcon}"></i>
             </button>
             <button class="user-action-btn delete-btn" title="Удалить пользователя">
@@ -469,116 +464,120 @@ function loadUsers() {
             </button>
           </div>
         </div>
-        <div class="user-details">
-          <div class="user-detail">
+        <div class="management__details">
+          <div class="management__detail">
             <strong>Email:</strong> ${user.email}
           </div>
-          <div class="user-detail">
+          <div class="management__detail">
             <strong>Роль:</strong> ${user.role === 'admin' ? 'Администратор' : 'Сотрудник'}
           </div>
-          <div class="user-detail">
+          <div class="management__detail">
             <strong>Дата добавления:</strong> ${user.dateCreated}
           </div>
         </div>
         <div class="${statusClass}">${lockStatus}</div>
       </div>
-    `;
-    
+    `;    
     usersContainer.insertAdjacentHTML('beforeend', userHTML);
   });
 }
 
-document.addEventListener('click', function(e) {
-  if (e.target.closest('.lock-btn') || e.target.closest('.unlock-btn')) {
-    const userItem = e.target.closest('.user-item');
-    toggleUserLock(userItem);
-  }
-  
-  if (e.target.closest('.delete-btn')) {
-    const userItem = e.target.closest('.user-item');
-    deleteUser(userItem);
-  }
-});
-
-function toggleUserLock(userElement) {
-  const userId = parseInt(userElement.dataset.id);
-  const userIndex = users.findIndex(user => user.id === userId);
-  
-  if (userIndex === -1) return;
-  
-  users[userIndex].isLocked = !users[userIndex].isLocked;
-  const user = users[userIndex];
-  
-  loadUsers();
-  
-  const action = user.isLocked ? 'Пользователь заблокирован' : 'Пользователь разблокирован';
-  addActionLog(action, `${user.fullName} (${user.email})`);
-  
-  alert(user.isLocked ? 
-    'Пользователь заблокирован. Доступ к системе ограничен.' : 
-    'Пользователь разблокирован. Доступ восстановлен.'
-  );
-}
-
-function deleteUser(userElement) {
-  if (!confirm('Вы уверены, что хотите удалить этого пользователя?')) return;
-  
-  const userId = parseInt(userElement.dataset.id);
-  const userIndex = users.findIndex(user => user.id === userId);
-  
-  if (userIndex === -1) return;
-  
-  const deletedUser = users[userIndex];
-  
-  users = users.filter(user => user.id !== userId);
-  
-  userElement.style.animation = 'fadeOut 0.3s ease-out';
-  setTimeout(() => {
-    userElement.remove();
-    
-    if (users.length === 0) {
-      loadUsers();
+  document.addEventListener('click', function(e) {
+    const lockBtn = e.target.closest('.lock-btn') || e.target.closest('.unlock-btn');
+    if (lockBtn) {
+      const userItem = lockBtn.closest('.management__item');
+      toggleUserLock(userItem);
     }
-  }, 300);
-  
-  addActionLog('Пользователь удален', `${deletedUser.fullName} (${deletedUser.email})`);
-}
-
-loadUsers();
-
-function addActionLog(action, details) {
-  const logContainer = document.getElementById('actionLog-container');
-  const emptyLogsMessage = document.getElementById('empty-logs-message');
-  
-  if (!logContainer) return;
-  
-  if (emptyLogsMessage) {
-    emptyLogsMessage.classList.add('hidden');
-  }
-  
-  const currentTime = new Date().toLocaleTimeString('ru-RU', { 
-    hour: '2-digit', 
-    minute: '2-digit' 
+    
+    if (e.target.closest('.delete-btn')) {
+      const userItem = e.target.closest('.management__item');
+      deleteUser(userItem);
+    }
   });
-  const currentDate = new Date().toLocaleDateString('ru-RU');
-  
-  const logHTML = `
-    <div class="log-item">
-      <div class="log-icon">
-        <i class="fas fa-user-cog"></i>
-      </div>
-      <div class="log-content">
-        <div class="log-header">
-          <span class="log-action">${action}</span>
-          <span class="log-time">${currentTime}</span>
+
+  function toggleUserLock(userElement) {
+    if (!userElement) return;
+    
+    const userId = parseInt(userElement.dataset.id);
+    const userIndex = users.findIndex(user => user.id === userId);
+    
+    if (userIndex === -1) return;
+    
+    users[userIndex].isLocked = !users[userIndex].isLocked;
+    const user = users[userIndex];
+    
+    loadUsers();
+    
+    const action = user.isLocked ? 'Пользователь заблокирован' : 'Пользователь разблокирован';
+    addActionLog(action, `${user.fullName} (${user.email})`);
+    
+    alert(user.isLocked ? 
+      'Пользователь заблокирован. Доступ к системе ограничен.' : 
+      'Пользователь разблокирован. Доступ восстановлен.'
+    );
+  }
+
+  function deleteUser(userElement) {
+    if (!userElement) return;
+    
+    if (!confirm('Вы уверены, что хотите удалить этого пользователя?')) return;
+    
+    const userId = parseInt(userElement.dataset.id);
+    const userIndex = users.findIndex(user => user.id === userId);
+    
+    if (userIndex === -1) return;
+    
+    const deletedUser = users[userIndex];
+    
+    users = users.filter(user => user.id !== userId);
+    
+    userElement.style.animation = 'fadeOut 0.3s ease-out';
+    setTimeout(() => {
+      userElement.remove();
+      
+      if (users.length === 0) {
+        loadUsers();
+      }
+    }, 300);
+    
+    addActionLog('Пользователь удален', `${deletedUser.fullName} (${deletedUser.email})`);
+  }
+
+  loadUsers();
+
+  function addActionLog(action, details) {
+    const logContainer = document.getElementById('actionLog-container');
+    const emptyLogsMessage = document.getElementById('empty-logs-message');
+    
+    if (!logContainer) return;
+    
+    if (emptyLogsMessage) {
+      emptyLogsMessage.classList.add('hidden');
+    }
+    
+    const currentTime = new Date().toLocaleTimeString('ru-RU', { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+    const currentDate = new Date().toLocaleDateString('ru-RU');
+    
+    const logHTML = `
+      <div class="log-item">
+        <div class="log-icon">
+          <i class="fas fa-user-cog"></i>
         </div>
-        <p class="log-details">${details}</p>
-        <div class="log-date">${currentDate}</div>
+        <div class="log-content">
+          <div class="log-header">
+            <span class="log-action">${action}</span>
+            <span class="log-time">${currentTime}</span>
+          </div>
+          <p class="log-details">${details}</p>
+          <div class="log-date">${currentDate}</div>
+        </div>
       </div>
-    </div>
-  `;
-  
-  logContainer.insertAdjacentHTML('afterbegin', logHTML);
-}
+    `;
+    
+    logContainer.insertAdjacentHTML('afterbegin', logHTML);
+  }
 
 });
