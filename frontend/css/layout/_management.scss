@@ -6,4 +6,9 @@
   &__title{
     @include a.section-title;
   }
+  &__add{
+    font-size: 19px;
+    display: inline-flex;
+    gap: 15px;
+  }
 }
