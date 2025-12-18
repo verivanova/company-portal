@@ -50,10 +50,60 @@ background: none;
   color: #1d53c7;
 }
 }
+.delete-btn:hover,
+.lock-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
 
-
+.unlock-btn:hover {
+  background: #dcfce7;
+  color: #16a34a;
+}
 
 .delete-task:hover {
   color: #ef4444;
 }
+
+.locked {
+  background-color: #fef2f2;
+  border-left: 4px solid #ef4444;
+  opacity: 0.8;
+}  
+.user-action-btn {
+  margin-bottom: 5px;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.user-action-btn:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+  transform: scale(1.05);
+}
+
+.user-action-btn.lock-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.user-action-btn.unlock-btn:hover {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.user-action-btn.delete-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
 

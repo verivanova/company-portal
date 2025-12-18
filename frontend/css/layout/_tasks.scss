@@ -124,6 +124,12 @@
     &__detail {
       font-size: 15px;
       color: var(--color-second-text);
+
+      & strong {
+      color: #334155;
+      font-weight: 600;
+      margin-right: 8px;
+    }
     }
 
     &__footer {
