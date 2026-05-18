@@ -1,0 +1,10 @@
+backend/config.php
+
+logs/
+*.log
+
+*.tmp
+*.bak
+
+Thumbs.db
+Desktop.ini
