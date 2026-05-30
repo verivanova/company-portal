@@ -21,10 +21,10 @@ if ($user && password_verify($password, $user['password'])) {
     $_SESSION['role'] = $user['role'];
 
     if ($user['role'] === 'admin') {
-        header('Location: /frontend/html/adminFrame.html');
+        header('Location: /frontend/html/adminFrame.php');
         exit;
     } else {
-        header('Location: /frontend/html/userFrame.html');
+        header('Location: /frontend/html/userFrame.php');
         exit;
     }
 } else {

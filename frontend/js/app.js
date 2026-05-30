@@ -9,52 +9,53 @@ document.addEventListener('DOMContentLoaded', function() {
   const managementSection = document.getElementById('management-section');
   const actionLogSection = document.getElementById('actionLog-section');
 
-  if (newsLink && tasksLink && newsSection && tasksSection) {
+if (newsLink && tasksLink && newsSection && tasksSection) {
     
-    function switchSection(activeSection, activeLink) {
-      if (newsSection) newsSection.classList.add('hidden');
-      if (tasksSection) tasksSection.classList.add('hidden');
-      if (managementSection) managementSection.classList.add('hidden');
-      if (actionLogSection) actionLogSection.classList.add('hidden');
-      
-      if (newsLink) newsLink.classList.remove('active');
-      if (tasksLink) tasksLink.classList.remove('active');
-      if (managementLink) managementLink.classList.remove('active');
-      if (actionLogLink) actionLogLink.classList.remove('active');
-      
-      if (activeSection) activeSection.classList.remove('hidden');
-      if (activeLink) activeLink.classList.add('active');
+function switchSection(activeSection, activeLink) {
+    if (newsSection) newsSection.classList.add('hidden');
+    if (tasksSection) tasksSection.classList.add('hidden');
+    if (managementSection) managementSection.classList.add('hidden');
+    if (actionLogSection) actionLogSection.classList.add('hidden');
+
+    if (newsLink) newsLink.classList.remove('active');
+    if (tasksLink) tasksLink.classList.remove('active');
+    if (managementLink) managementLink.classList.remove('active');
+    if (actionLogLink) actionLogLink.classList.remove('active');
+
+    if (activeSection) activeSection.classList.remove('hidden');
+    if (activeLink) activeLink.classList.add('active');
+
+    if (activeSection === managementSection) {
+        loadUsers();
     }
+}
     
     if (newsLink) {
-      newsLink.addEventListener('click', function() {
-        switchSection(newsSection, newsLink);
-      });
+        newsLink.addEventListener('click', function() {
+            switchSection(newsSection, newsLink);
+        });
     }
     
     if (tasksLink) {
-      tasksLink.addEventListener('click', function() {
-        switchSection(tasksSection, tasksLink);
-      });
+        tasksLink.addEventListener('click', function() {
+            switchSection(tasksSection, tasksLink);
+        });
     }
 
     if (managementLink && managementSection) {
-      managementLink.addEventListener('click', function() {
-        switchSection(managementSection, managementLink);
-        loadUsers();
-      });
+        managementLink.addEventListener('click', function() {
+            switchSection(managementSection, managementLink);
+        });
     }
     
     if (actionLogLink && actionLogSection) {
-      actionLogLink.addEventListener('click', function() {
-        switchSection(actionLogSection, actionLogLink);
-      });
+        actionLogLink.addEventListener('click', function() {
+            switchSection(actionLogSection, actionLogLink);
+        });
     }
     
     switchSection(newsSection, newsLink);
-  }
-
-  const addNewsBtn = document.getElementById('add-news-btn');
+}  const addNewsBtn = document.getElementById('add-news-btn');
   const publishForm = document.getElementById('publish-form');
 
   addNewsBtn.addEventListener('click', function() {
@@ -350,33 +351,72 @@ document.addEventListener('DOMContentLoaded', function() {
   const userForm = document.getElementById('user-form');
   const usersContainer = document.getElementById('users-container');
 
-  let users = [
-    { 
-      id: 1, 
-      fullName: "Иванов Иван Иванович", 
-      email: "ivanov@company.com", 
-      role: "admin",
-      dateCreated: "10.11.2025",
-      isLocked: false
-    },
-    { 
-      id: 2, 
-      fullName: "Петров Петр Петрович", 
-      email: "petrov@company.com", 
-      role: "employee",
-      dateCreated: "12.11.2025",
-      isLocked: false
-    },
-    { 
-      id: 3, 
-      fullName: "Сидорова Мария Сергеевна", 
-      email: "sidorova@company.com", 
-      role: "employee",
-      dateCreated: "15.11.2025",
-      isLocked: true
-    }
-  ];
+function loadUsers() {
+    if (!usersContainer) return;
+    fetch('/backend/get_users.php')
+        .then(response => response.json())
+        .then(data => {
+            users = data; 
+            renderUsers(users);
+        })
+        .catch(error => {
+            console.error('Ошибка загрузки пользователей:', error);
+            usersContainer.innerHTML = '<p style="color:red;">Ошибка загрузки списка пользователей</p>';
+        });
+}
 
+function renderUsers(usersArray) {
+    usersContainer.innerHTML = '';
+
+    if (usersArray.length === 0) {
+        usersContainer.innerHTML = `
+          <div class="management__empty">
+            <i class="fas fa-users"></i>
+            <p>Пользователи не найдены</p>
+            <p style="font-size: 14px; margin-top: 8px;">Добавьте первого пользователя</p>
+          </div>
+        `;
+        return;
+    }
+
+    usersArray.forEach(user => {
+        const isLockedClass = user.isLocked ? 'locked' : '';
+        const lockStatus = user.isLocked ? 'Заблокирован' : 'Активен';
+        const statusClass = user.isLocked ? 'lock-status locked' : 'lock-status active';
+        const lockIcon = user.isLocked ? 'fa-lock-open' : 'fa-lock';
+        const lockTitle = user.isLocked ? 'Разблокировать пользователя' : 'Заблокировать пользователя';
+        const lockBtnClass = user.isLocked ? 'unlock-btn' : 'lock-btn';
+
+        const userHTML = `
+          <div class="management__item ${isLockedClass}" data-id="${user.id}">
+            <div class="management__item-header">
+              <h3>${user.fullName}</h3>
+              <div class="management__actions">
+                <button class="user-action-btn ${lockBtnClass}" title="${lockTitle}">
+                  <i class="fas ${lockIcon}"></i>
+                </button>
+                <button class="user-action-btn delete-btn" title="Удалить пользователя">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div class="management__details">
+              <div class="management__detail">
+                <strong>Email:</strong> ${user.email}
+              </div>
+              <div class="management__detail">
+                <strong>Роль:</strong> ${user.role === 'admin' ? 'Администратор' : 'Сотрудник'}
+              </div>
+              <div class="management__detail">
+                <strong>Дата добавления:</strong> ${user.dateCreated}
+              </div>
+            </div>
+            <div class="${statusClass}">${lockStatus}</div>
+          </div>
+        `;
+        usersContainer.insertAdjacentHTML('beforeend', userHTML);
+    });
+}
   if (addUserBtn && userFormContainer) {
     addUserBtn.addEventListener('click', function() {
       userFormContainer.classList.toggle('hidden');
@@ -387,99 +427,77 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  if (userForm) {
+if (userForm) {
     userForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const fullName = document.getElementById('user-fullname').value;
-      const email = document.getElementById('user-email').value;
-      const role = document.getElementById('user-role').value;
-      const password = document.getElementById('user-password').value;
-      const passwordConfirm = document.getElementById('user-password-confirm').value;
-      
-      if (password !== passwordConfirm) {
-        alert('Пароли не совпадают!');
-        return;
-      }
-      
-      if (users.some(user => user.email === email)) {
-        alert('Пользователь с таким email уже существует!');
-        return;
-      }
-      
-      const newUser = {
-        id: Date.now(),
-        fullName: fullName,
-        email: email,
-        role: role,
-        dateCreated: new Date().toLocaleDateString('ru-RU'),
-        isLocked: false
-      };
-      
-      users.push(newUser);
-      
-      loadUsers();
-      
-      userForm.reset();
-      userFormContainer.classList.add('hidden');
-      
-      addActionLog('Пользователь добавлен', `Добавлен новый пользователь: ${fullName} (${role})`);
+        e.preventDefault(); 
+
+        const fullName = document.getElementById('user-fullname').value;
+        const email = document.getElementById('user-email').value;
+        const role = document.getElementById('user-role').value;
+        const password = document.getElementById('user-password').value;
+        const passwordConfirm = document.getElementById('user-password-confirm').value;
+
+        if (password !== passwordConfirm) {
+            alert('Пароли не совпадают!');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('full_name', fullName);
+        formData.append('email', email);
+        formData.append('role', role);
+        formData.append('password', password);
+        formData.append('password_confirm', passwordConfirm);
+
+        fetch('/backend/register.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                userForm.reset();
+                userFormContainer.classList.add('hidden');
+
+                loadUsers();
+
+                if (typeof addActionLog === 'function') {
+                    addActionLog('Пользователь добавлен', `Добавлен новый пользователь: ${fullName} (${role === 'admin' ? 'Администратор' : 'Сотрудник'})`);
+                }
+            } else {
+                alert('Ошибка: ' + result.message);
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            alert('Произошла ошибка при отправке данных');
+        });
     });
-  }
+}
 
 function loadUsers() {
-  if (!usersContainer) return;
-  
-  usersContainer.innerHTML = '';
-  
-  if (users.length === 0) {
-    usersContainer.innerHTML = `
-      <div class="management__empty">
-        <i class="fas fa-users"></i>
-        <p>Пользователи не найдены</p>
-        <p style="font-size: 14px; margin-top: 8px;">Добавьте первого пользователя</p>
-      </div>
-    `;
-    return;
-  }
-  
-  users.forEach(user => {
-    const isLockedClass = user.isLocked ? 'locked' : '';
-    const lockStatus = user.isLocked ? 'Заблокирован' : 'Активен';
-    const statusClass = user.isLocked ? 'lock-status locked' : 'lock-status active';
-    const lockIcon = user.isLocked ? 'fa-lock-open' : 'fa-lock';
-    const lockTitle = user.isLocked ? 'Разблокировать пользователя' : 'Заблокировать пользователя';
-    const lockBtnClass = user.isLocked ? 'unlock-btn' : 'lock-btn';
-    
-    const userHTML = `
-      <div class="management__item ${isLockedClass}" data-id="${user.id}">
-        <div class="management__item-header">
-          <h3>${user.fullName}</h3>
-          <div class="management__actions">
-            <button class="user-action-btn ${lockBtnClass}" title="${lockTitle}">
-              <i class="fas ${lockIcon}"></i>
-            </button>
-            <button class="user-action-btn delete-btn" title="Удалить пользователя">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>
-        </div>
-        <div class="management__details">
-          <div class="management__detail">
-            <strong>Email:</strong> ${user.email}
-          </div>
-          <div class="management__detail">
-            <strong>Роль:</strong> ${user.role === 'admin' ? 'Администратор' : 'Сотрудник'}
-          </div>
-          <div class="management__detail">
-            <strong>Дата добавления:</strong> ${user.dateCreated}
-          </div>
-        </div>
-        <div class="${statusClass}">${lockStatus}</div>
-      </div>
-    `;    
-    usersContainer.insertAdjacentHTML('beforeend', userHTML);
-  });
+    console.log('loadUsers выполняется');
+    if (!usersContainer) {
+        console.error('usersContainer не найден!');
+        return;
+    }
+
+    fetch('/backend/get_users.php', { credentials: 'same-origin' })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Ошибка сети или сервера: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Получены пользователи:', data);
+            users = data;
+            renderUsers(users);
+        })
+        .catch(error => {
+            console.error('Ошибка загрузки пользователей:', error);
+            usersContainer.innerHTML = '<p style="color:red;">Ошибка загрузки списка пользователей</p>';
+        });
 }
 
   document.addEventListener('click', function(e) {

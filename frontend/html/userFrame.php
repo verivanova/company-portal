@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
+    header('Location: /frontend/html/index.html');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -27,7 +34,7 @@
             <a href="#login" class="btn header__btn-login">Войти в систему</a>
           </li>
           <li class="header__menu-item">
-            <button onclick="logout()" class="btn header__btn-logout ">Выйти</button>
+            <a href="/backend/logout.php" class="btn header__btn-logout ">Выйти</a>
           </li>
         </ul>
     </nav>
@@ -184,13 +191,6 @@
   </footer>
 
   <script>
-    // Простая функция выхода
-    function logout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/';
-    }
-
     // Переключение между разделами
     document.getElementById('news-link').addEventListener('click', function() {
       document.getElementById('news-section').classList.remove('hidden');
