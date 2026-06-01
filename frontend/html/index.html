@@ -22,6 +22,11 @@
             <a class="header__menu-link" href="#about">О проекте</a>
           </li>
           <li class="header__menu-item">
+            <button id="themeToggle" class="theme-toggle" title="Переключить тему">
+              <i class="fas fa-moon"></i>
+            </button>
+          </li>
+          <li class="header__menu-item">
             <a href="#login" class="btn header__btn-login">Войти в систему</a>
           </li>
           </ul>
@@ -136,6 +141,31 @@
   </footer>
   
   <script>
+    // Theme toggle for index page
+  (function() {
+    const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) return;
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+
+    function updateThemeIcon(theme) {
+      const icon = document.querySelector('#themeToggle i');
+      if (icon) {
+        icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      }
+    }
+  })();
       document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       

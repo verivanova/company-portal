@@ -21,6 +21,178 @@
   --transition-duration: 0.3s ease;
 }
 
+/* Добавьте в начало файла после существующих :root */
+
+/* Светлая тема (по умолчанию) */
+:root,
+[data-theme="light"] {
+  --color-main: #1d53c7;
+  --color-hover: #1641b8;
+  --color-icon: #335ccf;
+  --color-text: #1e293b;
+  --color-second-text: #64748b;
+  --color-button-hover: #dadada;
+  --color-background: #f8fafc;
+  --color-gray-acent: #f1f5f9;
+  --color-gray-border: #9ca3af;
+  --color-second-border: #e5e7eb;
+  --color-darker: #e2e8f0;
+  --color-white: #ffffff;
+  --color-view-button: #f0f0f0;
+  --color-error: #dc2626;
+  --color-error-border: #fecaca;
+  --border-radius-small: 8px;
+  --border-radius-large: 12px;
+  --container-padding-x: 20px;
+  --section-padding-y: 80px;
+  --transition-duration: 0.3s ease;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 5px 20px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* Темная тема */
+[data-theme="dark"] {
+  --color-main: #4f7df3;
+  --color-hover: #6b92f5;
+  --color-icon: #6b92f5;
+  --color-text: #e2e8f0;
+  --color-second-text: #94a3b8;
+  --color-button-hover: #3d3d3d;
+  --color-background: #0f172a;
+  --color-gray-acent: #1e293b;
+  --color-gray-border: #475569;
+  --color-second-border: #334155;
+  --color-darker: #1e293b;
+  --color-white: #1e293b;
+  --color-view-button: #334155;
+  --color-error: #ef4444;
+  --color-error-border: #7f1d1d;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 5px 20px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+/* Стили для кнопки переключения темы */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--color-text);
+  transition: all 0.3s ease;
+  margin-left: 10px;
+}
+
+.theme-toggle:hover {
+  background: var(--color-gray-acent);
+  transform: rotate(15deg);
+}
+
+.theme-toggle i {
+  transition: all 0.3s ease;
+}
+
+/* Обновите тени для всех элементов */
+.header {
+  box-shadow: var(--shadow-sm);
+}
+
+.news__form,
+.tasks__container,
+.management__container {
+  box-shadow: var(--shadow-md);
+}
+
+.login__inner {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Добавьте переход для плавной смены темы */
+body * {
+  transition: background-color 0.3s ease, 
+              color 0.3s ease, 
+              border-color 0.3s ease, 
+              box-shadow 0.3s ease;
+}
+
+/* Корректировки для темной темы */
+[data-theme="dark"] .header {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .news__item,
+[data-theme="dark"] .tasks__item,
+[data-theme="dark"] .management__item,
+[data-theme="dark"] .actionLog__item {
+  background-color: #1e293b;
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .news__inner input,
+[data-theme="dark"] .news__inner textarea,
+[data-theme="dark"] .news__inner select,
+[data-theme="dark"] .management__inner input,
+[data-theme="dark"] .management__inner select,
+[data-theme="dark"] .management__inner textarea {
+  background-color: #0f172a;
+  color: #e2e8f0;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .form__inner input {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .footer {
+  background-color: #0f172a;
+}
+
+[data-theme="dark"] .tasks__box input,
+[data-theme="dark"] .tasks__filter select {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .features__card {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .about {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .management__detail {
+  background-color: #0f172a;
+}
+
+[data-theme="dark"] .header__btn-logout {
+  background-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .header__btn-logout:hover {
+  background-color: #475569 !important;
+}
+
+[data-theme="dark"] .tasks__status-not {
+  background-color: #1e3a5f;
+  color: #93c5fd;
+}
+
+[data-theme="dark"] .tasks__status-completed {
+  background-color: #064e3b;
+  color: #6ee7b7;
+}
+
 *,
 *::before,
 *::after {

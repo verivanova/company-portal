@@ -31,6 +31,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
             <a id="actionLog-link" class="header__menu-link">Журнал действий</a>
           </li>
           <li class="header__menu-item">
+            <button id="themeToggle" class="theme-toggle" title="Переключить тему">
+              <i class="fas fa-moon"></i>
+            </button>
+          </li>
+          <li class="header__menu-item">
             <a href="#login" class="btn header__btn-login">Войти в систему</a>
           </li>
           <li class="header__menu-item">
