@@ -105,6 +105,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <div class="tasks__container-card">
           <h3 id="task-form-title">Создание новой задачи</h3>
           <form id="task-form" class="news">
+            <input type="hidden" id="task-id" name="id" value="">
             <div class="news__inner">
               <label for="task-title">Название задачи</label>
               <input type="text" id="task-title" required placeholder="Введите название задачи">
@@ -198,7 +199,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
               <label for="user-role">Роль</label>
               <select id="user-role" required>
                 <option value="">Выберите роль</option>
-                <option value="employee">Сотрудник</option>
+                <option value="user">Сотрудник</option>
                 <option value="admin">Администратор</option>
               </select>
             </div>

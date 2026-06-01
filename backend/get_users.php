@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 header('Content-Type: application/json; charset=utf-8');
 
 $users = [];
-$result = $mysqli->query("SELECT id, full_name, email, role, created_at FROM users ORDER BY created_at DESC");
+$result = $mysqli->query("SELECT id, full_name, email, role, created_at, is_locked FROM users ORDER BY created_at DESC");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $users[] = [
@@ -20,7 +20,7 @@ if ($result) {
             'email'       => $row['email'],
             'role'        => ($row['role'] === 'admin') ? 'admin' : 'employee', 
             'dateCreated' => date('d.m.Y', strtotime($row['created_at'])),
-            'isLocked'    => false, 
+            'isLocked'    => (bool)$row['is_locked'],
         ];
     }
     $result->free();

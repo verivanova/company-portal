@@ -9,6 +9,37 @@ document.addEventListener('DOMContentLoaded', function() {
   const managementSection = document.getElementById('management-section');
   const actionLogSection = document.getElementById('actionLog-section');
 
+async function populateUserSelects() {
+    try {
+        const response = await fetch('/backend/get_users.php');
+        const users = await response.json();
+        const managerSelect = document.getElementById('task-manager');
+        const assigneeSelect = document.getElementById('task-assignee');
+
+        if (managerSelect) {
+            managerSelect.innerHTML = '<option value="">Выберите постановщика</option>';
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.id; 
+                option.textContent = user.fullName;
+                managerSelect.appendChild(option);
+            });
+        }
+
+        if (assigneeSelect) {
+            assigneeSelect.innerHTML = '<option value="">Выберите ответственного</option>';
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.id;
+                option.textContent = user.fullName;
+                assigneeSelect.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.error('Ошибка загрузки пользователей для селектов:', error);
+    }
+}
+
 if (newsLink && tasksLink && newsSection && tasksSection) {
     
 function switchSection(activeSection, activeLink) {
@@ -24,7 +55,10 @@ function switchSection(activeSection, activeLink) {
 
     if (activeSection) activeSection.classList.remove('hidden');
     if (activeLink) activeLink.classList.add('active');
-
+    
+    if (activeSection === tasksSection) {
+    loadTasks();
+    }
     if (activeSection === managementSection) {
         loadUsers();
     }
@@ -73,31 +107,128 @@ function switchSection(activeSection, activeLink) {
   const statusFilter = document.getElementById('status-filter');
   const assigneeFilter = document.getElementById('assignee-filter');
 
-  addTaskBtn.addEventListener('click', function() {
+addTaskBtn.addEventListener('click', function() {
     taskFormContainer.classList.toggle('hidden');
-    
     if (!taskFormContainer.classList.contains('hidden')) {
-      document.getElementById('task-title').focus();
-      
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById('task-deadline').min = today;
+        document.getElementById('task-title').focus();
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('task-deadline').min = today;
+        document.getElementById('task-deadline').max = getMaxDate(); 
+        populateUserSelects(); 
     }
-  });
+});
 
-  taskForm.addEventListener('submit', function(e) {
+function getMaxDate() {
+    const nextYear = new Date();
+    nextYear.setFullYear(nextYear.getFullYear() + 3);
+    return nextYear.toISOString().split('T')[0];
+}
+
+taskForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    
+
+    const taskId = document.getElementById('task-id').value;
     const title = document.getElementById('task-title').value;
     const description = document.getElementById('task-description').value;
-    const manager = document.getElementById('task-manager').value;
-    const assignee = document.getElementById('task-assignee').value;
+    const managerId = document.getElementById('task-manager').value;
+    const assigneeId = document.getElementById('task-assignee').value;
     const deadline = document.getElementById('task-deadline').value;
-    
-    createNewTask(title, description, manager, assignee, deadline);
-    
-    taskFormContainer.classList.add('hidden');
-    taskForm.reset();
-  });
+
+    if (!title || !managerId || !assigneeId || !deadline) {
+        alert('Пожалуйста, заполните все поля');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('manager_id', managerId);
+    formData.append('assignee_id', assigneeId);
+    formData.append('deadline', deadline);
+    if (taskId) formData.append('id', taskId); 
+
+    const url = taskId ? '/backend/update_task.php' : '/backend/add_task.php';
+
+    try {
+        const response = await fetch(url, { method: 'POST', body: formData });
+        const result = await response.json();
+        if (result.success) {
+            taskForm.reset();
+            document.getElementById('task-id').value = ''; 
+            document.getElementById('task-form-title').textContent = 'Создание новой задачи';
+            document.getElementById('task-submit-btn').textContent = 'Создать задачу';
+            taskFormContainer.classList.add('hidden');
+            loadTasks();
+            if (typeof addActionLog === 'function') {
+                addActionLog(taskId ? 'Задача обновлена' : 'Задача создана', result.message);
+            }
+        } else {
+            alert('Ошибка: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Ошибка отправки формы задачи:', error);
+        alert('Произошла ошибка при обращении к серверу');
+    }
+});
+
+async function loadTasks() {
+    const container = document.getElementById('tasks-container');
+    if (!container) return;
+
+    try {
+        const response = await fetch('/backend/get_tasks.php');
+        const tasks = await response.json();
+        renderTasks(tasks, container);
+    } catch (error) {
+        console.error('Ошибка загрузки задач:', error);
+    }
+}
+
+function renderTasks(tasks, container) {
+    container.innerHTML = '';
+    if (tasks.length === 0) {
+        container.innerHTML = '<p>Нет задач</p>';
+        return;
+    }
+    tasks.forEach(task => {
+        const deadlineFormatted = new Date(task.deadline).toLocaleDateString('ru-RU');
+        const taskHTML = `
+          <div class="tasks__item" data-id="${task.id}">
+            <div class="tasks__item-header">
+              <h3>${escapeHtml(task.title)}</h3>
+              <div class="tasks__actions">
+                <button class="task-action-btn edit-task" title="Редактировать"><i class="fas fa-edit"></i></button>
+                <button class="task-action-btn delete-task" title="Удалить"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+            <p>${escapeHtml(task.description)}</p>
+            <div class="tasks__details">
+              <div class="tasks__detail"><strong>Постановщик:</strong> ${escapeHtml(task.managerName)}</div>
+              <div class="tasks__detail"><strong>Ответственный:</strong> ${escapeHtml(task.assigneeName)}</div>
+              <div class="tasks__detail"><strong>Срок:</strong> ${deadlineFormatted}</div>
+            </div>
+            <div class="tasks__footer">
+              <div class="tasks__status ${task.status === 'completed' ? 'tasks__status-completed' : 'tasks__status-not'}">
+                ${task.status === 'completed' ? 'Выполнена' : 'Не выполнена'}
+              </div>
+              <button class="btn tasks__success tasks__status-change">${task.status === 'completed' ? 'Вернуть в работу' : 'Отметить выполненной'}</button>
+            </div>
+          </div>
+        `;
+        container.insertAdjacentHTML('beforeend', taskHTML);
+    });
+}
+
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, m => map[m]);
+}
 
   taskSearch.addEventListener('input', filterTasks);
   statusFilter.addEventListener('change', filterTasks);
@@ -203,54 +334,39 @@ function switchSection(activeSection, activeLink) {
     }
   });
 
-  function editTask(taskElement) {
-    const title = taskElement.querySelector('h3').textContent;
-    const description = taskElement.querySelector('p').textContent;
-    const manager = taskElement.querySelector('.tasks__detail:nth-child(1)').textContent.replace('Постановщик: ', '');
-    const assignee = taskElement.querySelector('.tasks__detail:nth-child(2)').textContent.replace('Ответственный: ', '');
-    const deadline = taskElement.querySelector('.tasks__detail:nth-child(3)').textContent.replace('Срок: ', '');
-    
-    const [day, month, year] = deadline.split(' ');
-    const months = {
-      'января': '01', 'февраля': '02', 'марта': '03', 'апреля': '04',
-      'мая': '05', 'июня': '06', 'июля': '07', 'августа': '08',
-      'сентября': '09', 'октября': '10', 'ноября': '11', 'декабря': '12'
-    };
+async function editTask(taskElement) {
+    const taskId = taskElement.dataset.id;
+    if (!taskId) return;
 
-    const deadlineDate = `${year}-${months[month]}-${day.padStart(2, '0')}`;
+    try {
+        const response = await fetch('/backend/get_tasks.php');
+        const tasks = await response.json();
+        const task = tasks.find(t => t.id == taskId);
+        if (!task) {
+            alert('Задача не найдена');
+            return;
+        }
 
-    document.getElementById('task-form-title').textContent = 'Редактирование задачи';
-    document.getElementById('task-submit-btn').textContent = 'Сохранить изменения';
+        document.getElementById('task-title').value = task.title;
+        document.getElementById('task-description').value = task.description;
+        document.getElementById('task-manager').value = task.managerId;
+        document.getElementById('task-assignee').value = task.assigneeId;
+        document.getElementById('task-deadline').value = task.deadline;
+        document.getElementById('task-id').value = task.id; 
 
-    document.getElementById('task-title').value = title;
-    document.getElementById('task-description').value = description;
-    document.getElementById('task-manager').value = manager;
-    document.getElementById('task-assignee').value = assignee;
-    document.getElementById('task-deadline').value = deadlineDate;
-    
-    taskFormContainer.classList.remove('hidden');
-    document.getElementById('task-title').focus();
-    
-    taskForm.onsubmit = function(e) {
-      e.preventDefault();
-      
-      const newTitle = document.getElementById('task-title').value;
-      const newDescription = document.getElementById('task-description').value;
-      const newManager = document.getElementById('task-manager').value;
-      const newAssignee = document.getElementById('task-assignee').value;
-      const newDeadline = document.getElementById('task-deadline').value;
-      
-      updateTask(taskElement, newTitle, newDescription, newManager, newAssignee, newDeadline);
-      
-      taskFormContainer.classList.add('hidden');
-      taskForm.reset();
-      document.getElementById('task-form-title').textContent = 'Создание новой задачи';
-      document.getElementById('task-submit-btn').textContent = 'Создать задачу';
-      
-      taskElement.remove();
-    };
-  }
+        document.getElementById('task-form-title').textContent = 'Редактирование задачи';
+        document.getElementById('task-submit-btn').textContent = 'Сохранить изменения';
 
+        taskFormContainer.classList.remove('hidden');
+        document.getElementById('task-title').focus();
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('task-deadline').min = today;
+        document.getElementById('task-deadline').max = getMaxDate();
+        await populateUserSelects(); 
+    } catch (error) {
+        console.error('Ошибка загрузки данных задачи:', error);
+    }
+}
   function updateTask(taskElement, title, description, manager, assignee, deadline) {
     const formattedDeadline = new Date(deadline).toLocaleDateString('ru-RU');
     
@@ -263,30 +379,57 @@ function switchSection(activeSection, activeLink) {
     filterTasks();
   }
 
-  function deleteTask(taskElement) {
-    if (confirm('Вы уверены, что хотите удалить эту задачу?')) {
-      taskElement.remove();
-    }
-  }
+async function deleteTask(taskElement) {
+    const taskId = taskElement.dataset.id;
+    if (!taskId) return;
+    if (!confirm('Вы уверены, что хотите удалить эту задачу?')) return;
 
-  function toggleTaskStatus(taskElement) {
-    const statusElement = taskElement.querySelector('.tasks__status');
-    const buttonElement = taskElement.querySelector('.tasks__status-change');
-    
-    if (statusElement.classList.contains('tasks__status-not')) {
-      statusElement.textContent = 'Выполнена';
-      statusElement.className = 'tasks__status tasks__status-completed';
-      buttonElement.textContent = 'Вернуть в работу';
-      buttonElement.className = 'btn btn-secondary  tasks__status-change';
-    } else {
-      statusElement.textContent = 'Не выполнена';
-      statusElement.className = 'tasks__status tasks__status-not';
-      buttonElement.textContent = 'Отметить выполненной';
-      buttonElement.className = 'btn tasks__success tasks__status-change';
+    const formData = new FormData();
+    formData.append('id', taskId);
+
+    try {
+        const response = await fetch('/backend/delete_task.php', { method: 'POST', body: formData });
+        const result = await response.json();
+        if (result.success) {
+            taskElement.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => {
+                loadTasks(); 
+            }, 300);
+            if (typeof addActionLog === 'function') {
+                addActionLog('Задача удалена', result.message);
+            }
+        } else {
+            alert('Ошибка: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Ошибка удаления задачи:', error);
+        alert('Произошла ошибка');
     }
-    
-    filterTasks();
-  };
+}
+
+async function toggleTaskStatus(taskElement) {
+    const taskId = taskElement.dataset.id;
+    if (!taskId) return;
+
+    const formData = new FormData();
+    formData.append('id', taskId);
+
+    try {
+        const response = await fetch('/backend/toggle_task_status.php', { method: 'POST', body: formData });
+        const result = await response.json();
+        if (result.success) {
+            loadTasks();
+            if (typeof addActionLog === 'function') {
+                addActionLog('Статус задачи изменён', result.message);
+            }
+        } else {
+            alert('Ошибка: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Ошибка переключения статуса:', error);
+        alert('Произошла ошибка');
+    }
+}
 
   const newsForm = document.getElementById('news-form');
 
@@ -500,68 +643,86 @@ function loadUsers() {
         });
 }
 
-  document.addEventListener('click', function(e) {
+document.addEventListener('click', function(e) {
     const lockBtn = e.target.closest('.lock-btn') || e.target.closest('.unlock-btn');
     if (lockBtn) {
-      const userItem = lockBtn.closest('.management__item');
-      toggleUserLock(userItem);
+        const userItem = lockBtn.closest('.management__item');
+        toggleUserLock(userItem);
     }
-    
+
     if (e.target.closest('.delete-btn')) {
-      const userItem = e.target.closest('.management__item');
-      deleteUser(userItem);
+        const userItem = e.target.closest('.management__item');
+        deleteUser(userItem);
     }
-  });
+});
 
-  function toggleUserLock(userElement) {
+async function toggleUserLock(userElement) {
     if (!userElement) return;
-    
     const userId = parseInt(userElement.dataset.id);
-    const userIndex = users.findIndex(user => user.id === userId);
-    
-    if (userIndex === -1) return;
-    
-    users[userIndex].isLocked = !users[userIndex].isLocked;
-    const user = users[userIndex];
-    
-    loadUsers();
-    
-    const action = user.isLocked ? 'Пользователь заблокирован' : 'Пользователь разблокирован';
-    addActionLog(action, `${user.fullName} (${user.email})`);
-    
-    alert(user.isLocked ? 
-      'Пользователь заблокирован. Доступ к системе ограничен.' : 
-      'Пользователь разблокирован. Доступ восстановлен.'
-    );
-  }
+    if (isNaN(userId)) return;
 
-  function deleteUser(userElement) {
+    const confirmText = userElement.classList.contains('locked')
+        ? 'Разблокировать этого пользователя?'
+        : 'Заблокировать этого пользователя?';
+    if (!confirm(confirmText)) return;
+
+    const formData = new FormData();
+    formData.append('id', userId);
+
+    try {
+        const response = await fetch('/backend/toggle_lock.php', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+        if (result.success) {
+            loadUsers(); 
+            if (typeof addActionLog === 'function') {
+                addActionLog('Изменение блокировки', result.message);
+            }
+        } else {
+            alert('Ошибка: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Ошибка переключения блокировки:', error);
+        alert('Произошла ошибка при обращении к серверу');
+    }
+}
+
+async function deleteUser(userElement) {
     if (!userElement) return;
-    
-    if (!confirm('Вы уверены, что хотите удалить этого пользователя?')) return;
-    
     const userId = parseInt(userElement.dataset.id);
-    const userIndex = users.findIndex(user => user.id === userId);
-    
-    if (userIndex === -1) return;
-    
-    const deletedUser = users[userIndex];
-    
-    users = users.filter(user => user.id !== userId);
-    
-    userElement.style.animation = 'fadeOut 0.3s ease-out';
-    setTimeout(() => {
-      userElement.remove();
-      
-      if (users.length === 0) {
-        loadUsers();
-      }
-    }, 300);
-    
-    addActionLog('Пользователь удален', `${deletedUser.fullName} (${deletedUser.email})`);
-  }
+    if (isNaN(userId)) return;
 
-  loadUsers();
+    if (!confirm('Вы уверены, что хотите удалить этого пользователя? Действие необратимо.')) return;
+
+    const formData = new FormData();
+    formData.append('id', userId);
+
+    try {
+        const response = await fetch('/backend/delete_user.php', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+        if (result.success) {
+            userElement.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => {
+                loadUsers(); 
+            }, 300);
+            if (typeof addActionLog === 'function') {
+                addActionLog('Пользователь удалён', result.message);
+            }
+        } else {
+            alert('Ошибка: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Ошибка удаления:', error);
+        alert('Произошла ошибка при обращении к серверу');
+    }
+}
+
+loadUsers();
 
   function addActionLog(action, details) {
     const logContainer = document.getElementById('actionLog-container');
