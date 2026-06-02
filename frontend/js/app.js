@@ -26,6 +26,7 @@ function updateThemeIcon(theme) {
 }
 document.addEventListener('DOMContentLoaded', function() {
   initThemeToggle();
+})
 document.addEventListener('DOMContentLoaded', function () {
   const newsLink = document.getElementById('news-link');
   const tasksLink = document.getElementById('tasks-link');

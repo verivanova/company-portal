@@ -16,7 +16,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 </head>
 <body>
   <header class="header">
-    <div class="header__inner container">
+    <div class="header__inner container second-header">
       <h2 class="header__logo"> Company Portal </h2>
       <nav class="header__menu">
         <ul class="header__menu-list">
