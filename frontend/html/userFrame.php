@@ -13,7 +13,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
   <title>Company Portal | Сотрудник</title>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-      <script src="/frontend/js/app.js" defer></script>
 </head>
 <body>
   <header class="header">
@@ -36,7 +35,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
             </button>
           </li>
           <li class="header__menu-item">
-            <a href="#login" class="btn header__btn-login">Войти в систему</a>
+            <a href="#login" class="btn header__btn-login"><?= htmlspecialchars($_SESSION['full_name']) ?></a>
           </li>
           <li class="header__menu-item">
             <a href="/backend/logout.php" class="btn header__btn-logout ">Выйти</a>
@@ -73,18 +72,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
       </div>
       
       <div id="news-container">
-        <div class="news__item">
-          <div class="news__item-header">
-            <h3>Корпоративное мероприятие</h3>
-            <div class="news__actions">
-              <button class="news__btn btn news__delete-news" title="Удалить задачу">
-                <i class="fas fa-trash"></i>
-              </button>
-            </div>
-          </div>
-          <p>Напоминаем о предстоящем корпоративном мероприятии в эту пятницу. Регистрация обязательна для всех сотрудников.</p>
-          <div class="news__date">25.11.2025</div>
-        </div>
       </div>
       
     </section>
@@ -103,6 +90,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     <div class="tasks__container-card">
       <h3 id="task-form-title">Создание новой задачи</h3>
       <form id="task-form" class="news">
+        <input type="hidden" id="task-id" name="id" value="">
         <div class="news__inner">
           <label for="task-title">Название задачи</label>
           <input type="text" id="task-title" required placeholder="Введите название задачи">
@@ -170,12 +158,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
       </div>
     </section>
 
-    <section id="actionLog-section" class="section-content hidden">
-      <div class="log-section-header">
-        <h2 class="section-title">Журнал действий</h2>
+    <section id="actionLog-section" class="actionLog hidden">
+      <div class="actionLog__header">
+        <h2 class="actionLog__title">Журнал действий</h2>
       </div>
-      <div id="logs-container" class="logs__container">
-        <div class="logs__empty" id="empty-logs-message">
+
+      <div id="actionLog-container">
+        <div class="actionlog__empty" id="empty-logs-message">
           <i class="fas fa-clipboard-list"></i>
           <p>Журнал действий пуст</p>
           <p>Здесь будут отображаться все действия в системе</p>
@@ -196,6 +185,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
   </footer>
 
   <script>
+    const currentUserId = <?= json_encode($_SESSION['user_id']) ?>;
+    const currentUserRole = <?= json_encode($_SESSION['role']) ?>;
     // Переключение между разделами
     document.getElementById('news-link').addEventListener('click', function() {
       document.getElementById('news-section').classList.remove('hidden');
@@ -211,5 +202,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
       document.getElementById('news-link').classList.remove('active');
     });
   </script>
+  <script src="../js/app.js"></script>
 </body>
 </html>

@@ -40,7 +40,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             </button>
           </li>
           <li class="header__menu-item">
-            <a href="#login" class="btn header__btn-login">Администратор<?= htmlspecialchars($_SESSION['email']) ?></a>
+            <a href="#login" class="btn header__btn-login"><?= htmlspecialchars($_SESSION['full_name']) ?></a>
           </li>
           <li class="header__menu-item">
             <a href="/backend/logout.php" class="btn header__btn-logout">Выйти</a>
@@ -79,19 +79,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       </div>
 
       <div id="news-container">
-        <div class="news__item">
-          <div class="news__item-header">
-            <h3>Корпоративное мероприятие</h3>
-            <div class="news__actions">
-              <button class="news__btn btn news__delete-news" title="Удалить задачу">
-                <i class="fas fa-trash"></i>
-              </button>
-            </div>
-          </div>
-          <p>Напоминаем о предстоящем корпоративном мероприятии в эту пятницу. Регистрация обязательна для всех
-            сотрудников.</p>
-          <div class="news__date">25.11.2025</div>
-        </div>
       </div>
 
     </section>
@@ -110,6 +97,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <div class="tasks__container-card">
           <h3 id="task-form-title">Создание новой задачи</h3>
           <form id="task-form" class="news">
+            <input type="hidden" id="task-id" name="id" value="">
             <div class="news__inner">
               <label for="task-title">Название задачи</label>
               <input type="text" id="task-title" required placeholder="Введите название задачи">
@@ -203,7 +191,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
               <label for="user-role">Роль</label>
               <select id="user-role" required>
                 <option value="">Выберите роль</option>
-                <option value="employee">Сотрудник</option>
+                <option value="user">Сотрудник</option>
                 <option value="admin">Администратор</option>
               </select>
             </div>
@@ -251,7 +239,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <a class="footer__email" href="mailto:company-portal_support@gmail.com">company-portal_support@example.com</a>
     </div>
   </footer>
-
+  <script>
+    const currentUserId = <?= json_encode($_SESSION['user_id']) ?>;
+    const currentUserRole = <?= json_encode($_SESSION['role']) ?>;
+</script>
   <script src="../js/app.js"></script>
 </body>
 

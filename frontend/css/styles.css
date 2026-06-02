@@ -492,7 +492,7 @@ input {
   -moz-column-gap: 35px;
        column-gap: 35px;
   padding: 16px 5%;
-  max-width: 1200px;
+  max-width: 1400px;
 }
 .header__menu {
   margin-left: auto;
@@ -541,6 +541,7 @@ input {
   align-items: center !important;
   height: auto !important;
   animation: none !important;
+  text-wrap-mode: nowrap;
 }
 .header__btn-login::after {
   display: none;
@@ -825,6 +826,13 @@ input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  margin-top: 40px;
+  bottom: 0;
+  height: auto;
+  overflow: hidden;
+  width: 100%;
+  font-size: 16px;
 }
 .footer__left {
   text-align: left;
@@ -915,6 +923,8 @@ input {
   color: var(--color-second-text);
   line-height: 1.6;
   margin-bottom: 16px;
+  text-wrap-mode: wrap;
+  max-width: 90%;
 }
 .news__actions {
   display: flex;
@@ -1094,6 +1104,9 @@ input {
   outline: none;
   border-color: var(--color-main);
   box-shadow: 0 0 0 3px rgba(29, 83, 199, 0.1);
+}
+.tasks__item--overdue {
+  border-left: 4px solid #d32f2f;
 }
 .tasks__filter {
   display: flex;
