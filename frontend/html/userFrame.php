@@ -98,6 +98,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     <div class="tasks__container-card">
       <h3 id="task-form-title">Создание новой задачи</h3>
       <form id="task-form" class="news">
+        <input type="hidden" id="task-id" name="id" value="">
         <div class="news__inner">
           <label for="task-title">Название задачи</label>
           <input type="text" id="task-title" required placeholder="Введите название задачи">
