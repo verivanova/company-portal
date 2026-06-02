@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/log_helper.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -19,7 +20,7 @@ if ($taskId <= 0) {
     exit;
 }
 
-$stmt = $mysqli->prepare("SELECT assignee_id, status FROM tasks WHERE id = ?");
+$stmt = $mysqli->prepare("SELECT assignee_id, manager_id, status FROM tasks WHERE id = ?");
 $stmt->bind_param('i', $taskId);
 $stmt->execute();
 $task = $stmt->get_result()->fetch_assoc();
@@ -29,7 +30,11 @@ if (!$task) {
     exit;
 }
 
-if ($_SESSION['role'] !== 'admin' && (int)$_SESSION['user_id'] !== (int)$task['assignee_id']) {
+if (
+    $_SESSION['role'] !== 'admin' &&
+    (int)$_SESSION['user_id'] !== (int)$task['assignee_id'] &&
+    (int)$_SESSION['user_id'] !== (int)$task['manager_id']
+) {
     echo json_encode(['success' => false, 'message' => 'Недостаточно прав']);
     exit;
 }
@@ -39,6 +44,7 @@ $updateStmt = $mysqli->prepare("UPDATE tasks SET status = ? WHERE id = ?");
 $updateStmt->bind_param('si', $newStatus, $taskId);
 
 if ($updateStmt->execute()) {
+    addLog($mysqli, $_SESSION['user_id'], 'Смена статуса задачи', "Задача ID: $taskId переведена в статус $newStatus");
     echo json_encode(['success' => true, 'message' => 'Статус обновлён', 'newStatus' => $newStatus]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Ошибка обновления статуса']);

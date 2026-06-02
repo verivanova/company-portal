@@ -48,6 +48,12 @@ $checkStmt->bind_param('s', $email);
 $checkStmt->execute();
 $checkStmt->store_result();
 
+if ($stmt->execute()) {
+    require_once __DIR__ . '/log_helper.php';
+    addLog($mysqli, $_SESSION['user_id'], 'Регистрация пользователя', "Добавлен пользователь $full_name с ролью $role");
+    echo json_encode(['success' => true, ...]);
+}
+
 if ($checkStmt->num_rows > 0) {
     echo json_encode(['success' => false, 'message' => 'Пользователь с таким email уже существует']);
     $checkStmt->close();

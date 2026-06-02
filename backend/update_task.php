@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/log_helper.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -59,6 +60,7 @@ $updateStmt = $mysqli->prepare("UPDATE tasks SET title=?, description=?, manager
 $updateStmt->bind_param('ssiisi', $title, $description, $manager_id, $assignee_id, $deadline, $taskId);
 
 if ($updateStmt->execute()) {
+    addLog($mysqli, $_SESSION['user_id'], 'Обновление задачи', "Обновлена задача ID: $taskId");
     echo json_encode(['success' => true, 'message' => 'Задача обновлена']);
 } else {
     echo json_encode(['success' => false, 'message' => 'Ошибка обновления: ' . $updateStmt->error]);

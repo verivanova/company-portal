@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/log_helper.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -45,6 +46,7 @@ $stmt = $mysqli->prepare("INSERT INTO tasks (title, description, manager_id, ass
 $stmt->bind_param('ssiis', $title, $description, $manager_id, $assignee_id, $deadline);
 
 if ($stmt->execute()) {
+    addLog($mysqli, $_SESSION['user_id'], 'Создание задачи', "Создана задача: $title");
     echo json_encode(['success' => true, 'message' => 'Задача успешно создана']);
 } else {
     echo json_encode(['success' => false, 'message' => 'Ошибка при создании задачи: ' . $stmt->error]);

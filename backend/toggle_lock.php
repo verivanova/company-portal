@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/log_helper.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -18,7 +19,6 @@ if ($user_id <= 0) {
     echo json_encode(['success' => false, 'message' => 'Некорректный ID пользователя']);
     exit;
 }
-
 if ($user_id === (int)$_SESSION['user_id']) {
     echo json_encode(['success' => false, 'message' => 'Нельзя заблокировать самого себя']);
     exit;
@@ -31,6 +31,7 @@ if ($stmt->execute() && $stmt->affected_rows > 0) {
     $res = $mysqli->query("SELECT is_locked FROM users WHERE id = $user_id");
     $row = $res->fetch_assoc();
     $newStatus = $row['is_locked'] ? 'заблокирован' : 'разблокирован';
+    addLog($mysqli, $_SESSION['user_id'], 'Изменение блокировки', "Пользователь ID: $user_id $newStatus");
     echo json_encode(['success' => true, 'message' => "Пользователь $newStatus", 'is_locked' => (bool)$row['is_locked']]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Не удалось изменить блокировку. Возможно, пользователь не найден.']);
