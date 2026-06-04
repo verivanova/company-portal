@@ -18,32 +18,40 @@
 
 ### 1. Клонирование репозитория
 Откройте командную строку (Git Bash, PowerShell или cmd) и выполните:
-bash
+```
 git clone https://github.com/verivanova/company-portal.git
-cd company-portal 
+cd company-portal
+```
 
 ### 2. Настройка Apache
 Откройте конфигурационный файл Apache (httpd.conf).
 Укажите путь к папке проекта в директиве DocumentRoot.
+```
 DocumentRoot "C:/путь/к/company-portal"
-Directory "C:/путь/к/company-portal"
-  ...
-Directory
+<Directory "C:/путь/к/company-portal">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+ ```
 
 Подключите PHP как модуль:
+```
 LoadModule php_module "C:/php/php8apache2_4.dll"
 PHPIniDir "C:/php"
 AddType application/x-httpd-php .php
+```
 
 Директива ServerName должна быть установлена как localhost:80
 
-Перезапустите Apache: C:\Apache24\bin\httpd.exe -k restart (или через командную строку от имени администратора)
+Перезапустите Apache: `C:\Apache24\bin\httpd.exe -k restart` (через командную строку от имени администратора)
 
 ### 3. Настройка базы данных
 1) Создайте пустую базу данных MySQL. Например, через консоль MySQL или MySQL Workbench выполните:
+```
 CREATE DATABASE company_portal CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-2) Создайте все необходимые таблицы. Для этого в папке backend/ есть скрипты, которые нужно выполнить однократно, открывая их в браузере:
+```
+3) Создайте все необходимые таблицы. Для этого в папке backend/ есть скрипты, которые нужно выполнить однократно, открывая их в браузере:
 
 - http://localhost/backend/setup_tasks.php – создаст таблицу tasks
 
