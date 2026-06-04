@@ -6,8 +6,6 @@
   <title>Company Portal | Внутренний портал компании</title>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="/backend/backapp.js" defer></script>
-
 </head>
 <body>
   <header class="header">
@@ -139,90 +137,7 @@
       <a class="footer__email" href="mailto:company-portal_support@gmail.com">company-portal_support@example.com</a>
     </div>
   </footer>
-  
-  <script>
-    // Theme toggle for index page
-  (function() {
-    const themeToggle = document.getElementById('themeToggle');
-    if (!themeToggle) return;
 
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeIcon(savedTheme);
-
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-      
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      updateThemeIcon(newTheme);
-    });
-
-    function updateThemeIcon(theme) {
-      const icon = document.querySelector('#themeToggle i');
-      if (icon) {
-        icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-      }
-    }
-  })();
-      document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const errorDiv = document.getElementById('error');
-      
-      errorDiv.classList.add('hidden');
-      
-      const submitBtn = document.querySelector('.form__submit');
-      const originalText = submitBtn.textContent;
-      submitBtn.textContent = 'Вход...';
-      submitBtn.disabled = true;
-
-      try {
-        console.log('Отправка запроса на сервер...');
-        
-        const response = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email,
-            password: password
-          })
-        });
-
-        console.log('Получен ответ:', response.status);
-        const result = await response.json();
-        console.log('Результат:', result);
-
-        if (result.success) {
-          localStorage.setItem('token', result.token);
-          localStorage.setItem('user', JSON.stringify(result.user));
-          
-          console.log('Успешный вход! Роль:', result.user.role);
-          
-          if (result.user.role === 'admin') {
-            window.location.href = '/adminFrame.html';
-          } else {
-            window.location.href = '/userFrame.html';
-          }
-        } else {
-          errorDiv.textContent = result.error || 'Ошибка входа';
-          errorDiv.classList.remove('hidden');
-        }
-      } catch (error) {
-        console.error('Ошибка сети:', error);
-        errorDiv.textContent = 'Ошибка сети. Проверьте подключение к интернету.';
-        errorDiv.classList.remove('hidden');
-      } finally {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-      }
-    });
-  </script>
-  
+    <script src="../js/app.js"></script>
 </body>
 </html>

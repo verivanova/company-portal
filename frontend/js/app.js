@@ -1,9 +1,7 @@
-// Theme toggle functionality
 function initThemeToggle() {
   const themeToggle = document.getElementById('themeToggle');
   if (!themeToggle) return;
 
-  // Получаем сохраненную тему или используем светлую по умолчанию
   const savedTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
   updateThemeIcon(savedTheme);
@@ -24,15 +22,55 @@ function updateThemeIcon(theme) {
     icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
   }
 }
+
 document.addEventListener('DOMContentLoaded', function() {
   initThemeToggle();
-})
-document.addEventListener('DOMContentLoaded', function () {
+
+  const SoundManager = {
+    enabled: true,
+    volume: 0.5,
+
+    play(src) {
+      if (!this.enabled) return;
+      const audio = new Audio(src);
+      audio.volume = this.volume;
+      audio.play().catch(e => console.warn('Звук не воспроизведён:', e));
+    },
+
+    success() { this.play('/frontend/audio/success.mp3'); },
+    delete()  { this.play('/frontend/audio/delete.mp3'); },
+    error()   { this.play('/frontend/audio/error.mp3'); },
+
+    toggle() {
+      this.enabled = !this.enabled;
+      localStorage.setItem('soundEnabled', this.enabled);
+      return this.enabled;
+    },
+
+    loadSettings() {
+      const saved = localStorage.getItem('soundEnabled');
+      if (saved !== null) this.enabled = (saved === 'true');
+      const savedVolume = localStorage.getItem('soundVolume');
+      if (savedVolume !== null) this.volume = parseFloat(savedVolume);
+    },
+
+    setVolume(vol) {
+      this.volume = Math.min(1, Math.max(0, vol));
+      localStorage.setItem('soundVolume', this.volume);
+    }
+  };
+
+  SoundManager.loadSettings();
+
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => SoundManager.delete());
+  }
+
   const newsLink = document.getElementById('news-link');
   const tasksLink = document.getElementById('tasks-link');
   const managementLink = document.getElementById('management-link');
   const actionLogLink = document.getElementById('actionLog-link');
-
   const newsSection = document.getElementById('news-section');
   const tasksSection = document.getElementById('tasks-section');
   const managementSection = document.getElementById('management-section');
@@ -53,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const addNewsBtn = document.getElementById('add-news-btn');
   const publishForm = document.getElementById('publish-form');
   const newsForm = document.getElementById('news-form');
+  const newsContainer = document.getElementById('news-container');
 
   let tasksData = [];
 
@@ -81,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
       loadNews();
     }
     if (activeSection === actionLogSection) {
-    loadActionLogs();
+      loadActionLogs();
     }
   }
 
@@ -104,6 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
       applyTaskFilters();
     } catch (error) {
       console.error('Ошибка загрузки задач:', error);
+      SoundManager.error();
     }
   }
 
@@ -150,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (statusFilter) statusFilter.addEventListener('change', applyTaskFilters);
   if (assigneeFilter) assigneeFilter.addEventListener('change', applyTaskFilters);
 
-function renderTasks(tasks, container) {
+  function renderTasks(tasks, container) {
     if (!container) return;
     container.innerHTML = '';
     if (tasks.length === 0) {
@@ -159,7 +199,7 @@ function renderTasks(tasks, container) {
     }
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0); 
+    today.setHours(0, 0, 0, 0);
     tasks.forEach(task => {
       const deadlineDate = new Date(task.deadline);
       deadlineDate.setHours(0, 0, 0, 0);
@@ -198,7 +238,7 @@ function renderTasks(tasks, container) {
       `;
       container.insertAdjacentHTML('beforeend', taskHTML);
     });
-}
+  }
 
   function escapeHtml(text) {
     const map = {
@@ -271,6 +311,7 @@ function renderTasks(tasks, container) {
 
       if (!title || !managerId || !assigneeId || !deadline) {
         alert('Заполните все поля');
+        SoundManager.error();
         return;
       }
 
@@ -294,15 +335,17 @@ function renderTasks(tasks, container) {
           document.getElementById('task-submit-btn').textContent = 'Создать задачу';
           taskFormContainer.classList.add('hidden');
           loadTasks();
+          SoundManager.success();
           if (typeof addActionLog === 'function') {
             addActionLog(taskId ? 'Задача обновлена' : 'Задача создана', result.message);
           }
         } else {
           alert('Ошибка: ' + result.message);
+          SoundManager.error();
         }
       } catch (error) {
         console.error('Ошибка отправки задачи:', error);
-        alert('Произошла ошибка при обращении к серверу');
+        SoundManager.error();
       }
     });
   }
@@ -331,6 +374,7 @@ function renderTasks(tasks, container) {
       const task = tasks.find(t => t.id == taskId);
       if (!task) {
         alert('Задача не найдена');
+        SoundManager.error();
         return;
       }
       document.getElementById('task-title').value = task.title;
@@ -349,6 +393,7 @@ function renderTasks(tasks, container) {
       await populateUserSelects();
     } catch (error) {
       console.error('Ошибка редактирования:', error);
+      SoundManager.error();
     }
   }
 
@@ -364,12 +409,15 @@ function renderTasks(tasks, container) {
       if (result.success) {
         taskElement.style.animation = 'fadeOut 0.3s ease-out';
         setTimeout(() => loadTasks(), 300);
+        SoundManager.delete();
         if (typeof addActionLog === 'function') addActionLog('Задача удалена', result.message);
       } else {
         alert('Ошибка: ' + result.message);
+        SoundManager.error();
       }
     } catch (error) {
       console.error('Ошибка удаления:', error);
+      SoundManager.error();
     }
   }
 
@@ -383,17 +431,17 @@ function renderTasks(tasks, container) {
       const result = await response.json();
       if (result.success) {
         loadTasks();
+        SoundManager.delete();
         if (typeof addActionLog === 'function') addActionLog('Статус задачи изменён', result.message);
       } else {
         alert('Ошибка: ' + result.message);
+        SoundManager.error();
       }
     } catch (error) {
       console.error('Ошибка смены статуса:', error);
+      SoundManager.error();
     }
   }
-
-
-  const newsContainer = document.getElementById('news-container');
 
   if (addNewsBtn) {
     addNewsBtn.addEventListener('click', function () {
@@ -409,6 +457,7 @@ function renderTasks(tasks, container) {
       const content = document.getElementById('news-content').value.trim();
       if (!title || !content) {
         alert('Заполните заголовок и содержание');
+        SoundManager.error();
         return;
       }
       const formData = new FormData();
@@ -421,12 +470,15 @@ function renderTasks(tasks, container) {
           newsForm.reset();
           publishForm.classList.add('hidden');
           loadNews();
+          SoundManager.success();
           if (typeof addActionLog === 'function') addActionLog('Новость добавлена', result.message);
         } else {
           alert('Ошибка: ' + result.message);
+          SoundManager.error();
         }
       } catch (error) {
         console.error('Ошибка добавления новости:', error);
+        SoundManager.error();
       }
     });
   }
@@ -440,6 +492,7 @@ function renderTasks(tasks, container) {
       renderNews(news, newsContainer);
     } catch (error) {
       console.error('Ошибка загрузки новостей:', error);
+      SoundManager.error();
     }
   }
 
@@ -491,12 +544,15 @@ function renderTasks(tasks, container) {
       if (result.success) {
         newsElement.style.animation = 'fadeOut 0.3s ease-out';
         setTimeout(() => loadNews(), 300);
+        SoundManager.delete();
         if (typeof addActionLog === 'function') addActionLog('Новость удалена', result.message);
       } else {
         alert('Ошибка: ' + result.message);
+        SoundManager.error();
       }
     } catch (error) {
       console.error('Ошибка удаления новости:', error);
+      SoundManager.error();
     }
   }
 
@@ -518,6 +574,7 @@ function renderTasks(tasks, container) {
 
       if (password !== passwordConfirm) {
         alert('Пароли не совпадают!');
+        SoundManager.error();
         return;
       }
 
@@ -535,16 +592,19 @@ function renderTasks(tasks, container) {
             userForm.reset();
             userFormContainer.classList.add('hidden');
             loadUsers();
+            SoundManager.success();
             if (typeof addActionLog === 'function') {
               addActionLog('Пользователь добавлен', `${fullName} (${role === 'admin' ? 'Администратор' : 'Сотрудник'})`);
             }
           } else {
             alert('Ошибка: ' + result.message);
+            SoundManager.error();
           }
         })
         .catch(error => {
           console.error('Ошибка:', error);
           alert('Произошла ошибка');
+          SoundManager.error();
         });
     });
   }
@@ -563,6 +623,7 @@ function renderTasks(tasks, container) {
       .catch(error => {
         console.error('Ошибка загрузки пользователей:', error);
         usersContainer.innerHTML = '<p style="color:red;">Ошибка загрузки</p>';
+        SoundManager.error();
       });
   }
 
@@ -634,12 +695,15 @@ function renderTasks(tasks, container) {
       const result = await response.json();
       if (result.success) {
         loadUsers();
+        SoundManager.delete();
         if (typeof addActionLog === 'function') addActionLog('Изменение блокировки', result.message);
       } else {
         alert('Ошибка: ' + result.message);
+        SoundManager.error();
       }
     } catch (error) {
       console.error('Ошибка блокировки:', error);
+      SoundManager.error();
     }
   }
 
@@ -656,12 +720,15 @@ function renderTasks(tasks, container) {
       if (result.success) {
         userElement.style.animation = 'fadeOut 0.3s ease-out';
         setTimeout(() => loadUsers(), 300);
+        SoundManager.delete();
         if (typeof addActionLog === 'function') addActionLog('Пользователь удалён', result.message);
       } else {
         alert('Ошибка: ' + result.message);
+        SoundManager.error();
       }
     } catch (error) {
       console.error('Ошибка удаления:', error);
+      SoundManager.error();
     }
   }
 
@@ -669,7 +736,6 @@ function renderTasks(tasks, container) {
     const container = document.getElementById('actionLog-container');
     const emptyMessage = document.getElementById('empty-logs-message');
     if (!container) return;
-
     try {
         const response = await fetch('/backend/get_action_logs.php');
         if (!response.ok) throw new Error('Ошибка загрузки');
@@ -677,17 +743,17 @@ function renderTasks(tasks, container) {
         renderActionLogs(logs, container, emptyMessage);
     } catch (error) {
         console.error('Ошибка загрузки журнала:', error);
+        SoundManager.error();
     }
-}
+  }
 
-function renderActionLogs(logs, container, emptyMessage) {
+  function renderActionLogs(logs, container, emptyMessage) {
     container.innerHTML = '';
     if (logs.length === 0) {
         if (emptyMessage) emptyMessage.classList.remove('hidden');
         return;
     }
     if (emptyMessage) emptyMessage.classList.add('hidden');
-
     logs.forEach(log => {
         const logHTML = `
           <div class="log-item">
@@ -704,9 +770,9 @@ function renderActionLogs(logs, container, emptyMessage) {
         `;
         container.insertAdjacentHTML('beforeend', logHTML);
     });
-}
+  }
 
   if (newsContainer) {
     loadNews();
-}
+  }
 });
