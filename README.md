@@ -19,7 +19,7 @@
 ### 1. Клонирование репозитория
 Откройте командную строку (Git Bash, PowerShell или cmd) и выполните:
 bash
-git clone https://github.com/ТВОЙ_ЛОГИН/company-portal.git
+git clone https://github.com/verivanova/company-portal.git
 cd company-portal 
 
 ### 2. Настройка Apache
