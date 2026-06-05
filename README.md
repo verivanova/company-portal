@@ -1,5 +1,6 @@
 # Company Portal – Внутренний портал компании
 Видео-демо: https://drive.google.com/drive/folders/1bbCuxZ4mv6vL72vRi8GmMgDmoL8szSSo?usp=sharing
+
 Учебный проект веб-приложения для корпоративного взаимодействия.
 
 ## Технологии
